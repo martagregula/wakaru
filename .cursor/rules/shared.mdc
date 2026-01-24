@@ -3,9 +3,9 @@ description:
 globs: 
 alwaysApply: true
 ---
-# AI Rules for {app-name}
+# AI Rules for Wakaru
 
-{project-description}
+Wakaru is an AI-powered study tool designed to help Japanese learners read authentic content like manga and social media. It instantly breaks down sentences into interactive tiles, providing morphological analysis, grammar explanations, and contextual translations to eliminate tedious dictionary lookups. Users can analyze short texts to decode complex conjugations and save them to a personal library for future review. This effectively bridges the gap between textbook theory and real-world reading fluency.
 
 ## Tech Stack
 
