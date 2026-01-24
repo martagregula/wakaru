@@ -1,93 +1,74 @@
-# 10x Astro Starter
+# Wakaru
 
-A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
+Wakaru is an AI-powered web application designed to help beginner and intermediate Japanese learners read and understand authentic content like manga and social media. Wakaru breaks down Japanese sentences into interactive tiles, providing morphological analysis, grammar explanations, and contextual translations, effectively bridging the gap between textbook theory and real-world reading fluency.
 
 ## Tech Stack
 
-- [Astro](https://astro.build/) v5.5.5 - Modern web framework for building fast, content-focused websites
-- [React](https://react.dev/) v19.0.0 - UI library for building interactive components
-- [TypeScript](https://www.typescriptlang.org/) v5 - Type-safe JavaScript
-- [Tailwind CSS](https://tailwindcss.com/) v4.0.17 - Utility-first CSS framework
+**Frontend:**
+- [Astro 5](https://astro.build/) - Web framework for performance.
+- [React 19](https://react.dev/) - UI library for interactive components.
+- [TypeScript 5](https://www.typescriptlang.org/) - Static typing.
+- [Tailwind CSS 4](https://tailwindcss.com/) - Utility-first CSS framework.
+- [Shadcn/ui](https://ui.shadcn.com/) - Reusable component library.
 
-## Prerequisites
+**Backend & Services:**
+- [Supabase](https://supabase.com/) - Backend-as-a-Service (PostgreSQL, Auth).
+- [OpenRouter](https://openrouter.ai/) - AI model aggregation (using gpt-4o-mini).
 
-- Node.js v22.14.0 (as specified in `.nvmrc`)
-- npm (comes with Node.js)
+## Getting Started Locally
 
-## Getting Started
+Follow these steps to set up the project locally.
+
+### Prerequisites
+
+- Node.js version **22.14.0** (referenced in `.nvmrc`).
+- npm
+
+### Installation
 
 1. Clone the repository:
-
-```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
-```
+   ```bash
+   git clone https://github.com/martagregula/wakaru.git
+   cd wakaru
+   ```
 
 2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm install
-```
+3. Environment Configuration:
+   Create a `.env` file in the project root. You will need to configure credentials for:
+   - **Supabase** (URL and Anon Key)
+   - **OpenRouter** (API Key for AI features)
 
-3. Run the development server:
-
-```bash
-npm run dev
-```
-
-4. Build for production:
-
-```bash
-npm run build
-```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+   The application should now be running on `http://localhost:3000`.
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint issues
+In the project directory, you can run:
 
-## Project Structure
+| Script | Description |
+| :--- | :--- |
+| `npm run dev` | Starts the local development server. |
+| `npm run build` | Builds the production-ready site. |
+| `npm run preview` | Previews the built production site locally. |
+| `npm run lint` | Runs ESLint to check for code quality issues. |
+| `npm run lint:fix` | Runs ESLint and automatically fixes fixable issues. |
+| `npm run format` | Formats code using Prettier. |
 
-```md
-.
-├── src/
-│   ├── layouts/    # Astro layouts
-│   ├── pages/      # Astro pages
-│   │   └── api/    # API endpoints
-│   ├── components/ # UI components (Astro & React)
-│   └── assets/     # Static assets
-├── public/         # Public assets
-```
+## Project Scope
 
-## AI Development Support
+The current MVP includes the following features:
 
-This project is configured with AI development tools to enhance the development experience, providing guidelines for:
-
-- Project structure
-- Coding practices
-- Frontend development
-- Styling with Tailwind
-- Accessibility best practices
-- Astro and React guidelines
-
-### Cursor IDE
-
-The project includes AI rules in `.cursor/rules/` directory that help Cursor IDE understand the project structure and provide better code suggestions.
-
-### GitHub Copilot
-
-AI instructions for GitHub Copilot are available in `.github/copilot-instructions.md`
-
-### Windsurf
-
-The `.windsurfrules` file contains AI configuration for Windsurf.
-
-## Contributing
-
-Please follow the AI guidelines and coding practices defined in the AI configuration files when contributing to this project.
+- **Text Analysis**: Input validation and analysis of short Japanese texts (max 280 chars).
+- **Interactive Results**: Clickable word tiles with dictionary definitions and grammar details.
+- **User Accounts**: Registration and login via Email/Password (Supabase Auth).
+- **History**: "My Sentences" view to browse and search saved analyses.
 
 ## License
 
