@@ -35,8 +35,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Dostępna jest prosta wyszukiwarka tekstowa w obrębie zapisanych zdań.
 
 ### 3.4. Ograniczenia i limity
-*   System narzuca limit 10 nowych analiz na dobę dla każdego użytkownika.
-*   Licznik resetuje się o godzinie 00:00 UTC.
 *   Użytkownicy niezalogowani mają dostęp wyłącznie do predefiniowanych "zdań przykładowych" i nie mogą wprowadzać własnego tekstu.
 
 ## 4. Granice produktu
@@ -46,7 +44,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Interfejs w języku angielskim.
 *   Walidacja inputu (wykrywanie języka japońskiego).
 *   Podstawowe uwierzytelnianie (Email/Hasło).
-*   Limit 10 zapytań dziennie.
 *   Zapisywanie historii analiz.
 *   Obsługa błędów poprzez prosty formularz zgłoszenia ("Report Issue").
 
@@ -67,7 +64,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Kryteria akceptacji:
     *   Na stronie głównej widoczna jest sekcja z predefiniowanymi zdaniami.
     *   Kliknięcie w przykład natychmiast wyświetla widok analizy (kafelki + tłumaczenie).
-    *   Licznik dzienny użytkownika nie jest zmniejszany.
     *   System nie wymaga logowania do tej akcji.
 
 ### US-002: Rejestracja użytkownika
@@ -81,7 +77,7 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 
 ### US-003: Logowanie do systemu
 *   Tytuł: Uwierzytelnianie
-*   Opis: Jako powracający użytkownik chcę zalogować się na swoje konto, aby uzyskać dostęp do moich zapisanych zdań i limitu analiz.
+*   Opis: Jako powracający użytkownik chcę zalogować się na swoje konto, aby uzyskać dostęp do moich zapisanych zdań.
 *   Kryteria akceptacji:
     *   Użytkownik może zalogować się poprawnym emailem i hasłem.
     *   Błędne dane logowania wyświetlają odpowiedni komunikat błędu.
@@ -93,7 +89,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Kryteria akceptacji:
     *   Pole tekstowe akceptuje max 280 znaków.
     *   System sprawdza, czy tekst zawiera znaki japońskie; jeśli nie, wyświetla błąd walidacji.
-    *   Po zatwierdzeniu, licznik dzienny użytkownika zmniejsza się o 1.
     *   Wyświetlany jest wskaźnik ładowania podczas oczekiwania na API.
     *   Wynik prezentowany jest jako sekwencja kafelków oraz pełne tłumaczenie poniżej.
 
@@ -107,7 +102,7 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 
 ### US-006: Zapisywanie analizy
 *   Tytuł: Archiwizacja zdania
-*   Opis: Jako użytkownik chcę zapisać wynik analizy, aby móc do niego wrócić później bez ponownego zużywania limitu.
+*   Opis: Jako użytkownik chcę zapisać wynik analizy, aby móc do niego wrócić później.
 *   Kryteria akceptacji:
     *   Dostępny jest przycisk "Zapisz" przy wynikach analizy.
     *   Zapisane zdanie trafia do bazy danych powiązanej z kontem użytkownika.
@@ -120,14 +115,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
     *   Dostępna jest sekcja "Moje Zdania" w profilu.
     *   Lista wyświetla zapisane zdania posortowane od najnowszych.
     *   Kliknięcie w element listy otwiera pełny widok analizy tego zdania (bez komunikacji z zewnętrznym API AI).
-
-### US-008: Blokada limitu dziennego
-*   Tytuł: Egzekwowanie limitu użycia
-*   Opis: Jako system chcę zablokować możliwość analizy kolejnych zdań po przekroczeniu limitu 10 zapytań, aby kontrolować koszty operacyjne.
-*   Kryteria akceptacji:
-    *   Użytkownik widzi licznik pozostałych analiz na dany dzień.
-    *   Przy próbie 11. analizy system blokuje akcję i wyświetla komunikat o wyczerpaniu limitu.
-    *   Limit resetuje się automatycznie o północy UTC.
 
 ### US-009: Zgłaszanie błędów analizy
 *   Tytuł: Raportowanie problemów
