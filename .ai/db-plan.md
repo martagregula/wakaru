@@ -77,7 +77,7 @@ To ensure high performance for critical read paths:
 
 ## 5. Security (Row Level Security & Functions)
 
-### RLS Policies
+### RLS Policies - IGNORE FOR NOW!
 
 - **analyses**:
     - `SELECT`: Permitted if `is_featured = true` OR if the user has a corresponding record in `user_saved_items`. (Note: During creation, the backend/RPC will bypass RLS to check existence/insert new records).
