@@ -14,7 +14,7 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 |--------|------|
 | **Nazwa** | Widok Analizy (Home) |
 | **Ścieżka** | `/` |
-| **Główny cel** | Umożliwienie przeglądania przykładów (gość) lub wprowadzenia tekstu japońskiego i wyświetlenia analizy (zalogowany); prezentacja wyników w formie interaktywnych tokenów i tłumaczenia. |
+| **Główny cel** | Umożliwienie wprowadzenia tekstu japońskiego i wyświetlenia analizy (zalogowany); prezentacja wyników w formie interaktywnych tokenów i tłumaczenia. |
 | **Kluczowe informacje** | Dla zalogowanego: pole tekstowe (max 280 znaków), licznik znaków, po analizie — siatka tokenów z kolorami POS, tłumaczenie zdania, stan zapisu (zapisane/niezapisane). |
 | **Kluczowe komponenty** | Layout z Topbarem, Textarea z walidacją i licznikiem, przycisk analizy, sekcja wyników: grid tokenów (każdy token z Popoverem), blok tłumaczenia, pasek akcji (Zapisz, Kopiuj), Skeleton w stanie ładowania. |
 | **UX, a11y, bezpieczeństwo** | Układ wertykalny: pole na górze, wyniki poniżej. Walidacja po stronie klienta — blokada wysłania przy braku znaków japońskich. Stany ładowania przez Skeleton zamiast spinnerów. Tokeny z wyraźnym focusem i obsługą klawiatury (Radix Popover). Gość widzi input; próba analizy wyzwala modal logowania (konwersja gościa). |
