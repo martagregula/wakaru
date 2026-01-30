@@ -34,9 +34,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Użytkownik ma dostęp do listy swoich zapisanych zdań ("Moje Zdania"), sortowanej chronologicznie.
 *   Dostępna jest prosta wyszukiwarka tekstowa w obrębie zapisanych zdań.
 
-### 3.4. Ograniczenia i limity
-*   Użytkownicy niezalogowani mają dostęp wyłącznie do predefiniowanych "zdań przykładowych" i nie mogą wprowadzać własnego tekstu.
-
 ## 4. Granice produktu
 
 ### W zakresie (In Scope) MVP
@@ -45,7 +42,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Walidacja inputu (wykrywanie języka japońskiego).
 *   Podstawowe uwierzytelnianie (Email/Hasło).
 *   Zapisywanie historii analiz.
-*   Obsługa błędów poprzez prosty formularz zgłoszenia ("Report Issue").
 
 ### Poza zakresem (Out of Scope) MVP
 *   Generowanie i wyświetlanie furigany nad każdym słowem (toggle).
@@ -57,14 +53,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Wersje językowe inne niż angielska.
 
 ## 5. Historyjki użytkowników
-
-### US-001: Przeglądanie przykładów bez logowania
-*   Tytuł: Dostęp gościa do przykładów
-*   Opis: Jako niezalogowany użytkownik chcę wybrać jedno z gotowych zdań przykładowych, aby zobaczyć, jak działa aplikacja, bez konieczności zakładania konta.
-*   Kryteria akceptacji:
-    *   Na stronie głównej widoczna jest sekcja z predefiniowanymi zdaniami.
-    *   Kliknięcie w przykład natychmiast wyświetla widok analizy (kafelki + tłumaczenie).
-    *   System nie wymaga logowania do tej akcji.
 
 ### US-002: Rejestracja użytkownika
 *   Tytuł: Zakładanie konta
@@ -115,13 +103,6 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
     *   Dostępna jest sekcja "Moje Zdania" w profilu.
     *   Lista wyświetla zapisane zdania posortowane od najnowszych.
     *   Kliknięcie w element listy otwiera pełny widok analizy tego zdania (bez komunikacji z zewnętrznym API AI).
-
-### US-009: Zgłaszanie błędów analizy
-*   Tytuł: Raportowanie problemów
-*   Opis: Jako użytkownik chcę zgłosić, że analiza AI jest błędna, aby twórcy mogli poprawić jakość promptów w przyszłości.
-*   Kryteria akceptacji:
-    *   Przy każdym wyniku analizy dostępny jest przycisk "Report Issue".
-    *   Zgłoszenie nie wymaga wpisywania treści, jest prostym sygnałem flagującym konkretne ID analizy w systemie.
 
 ### US-010: Wyszukiwanie w historii
 *   Tytuł: Filtrowanie zapisanych zdań

@@ -32,7 +32,6 @@ Typy są już zdefiniowane w pliku `@src/types.ts` i należy ich użyć:
       "originalText": "...",
       "translation": "...",
       "data": { ... }, // AnalysisDataDTO
-      "isFeatured": false,
       "createdAt": "ISO string"
     },
     "deduplicated": boolean // true jeśli pobrano z cache/DB, false jeśli nowa analiza

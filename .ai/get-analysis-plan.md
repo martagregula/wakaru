@@ -4,8 +4,7 @@
 
 Endpoint służy do pobierania szczegółów pojedynczej analizy językowej. Dostęp do zasobu jest warunkowy:
 
-- Jeśli analiza jest oznaczona jako `isFeatured`, jest dostępna publicznie.
-- W przeciwnym przypadku analiza jest dostępna tylko dla użytkownika, który ma ją zapisaną w swoich "Saved Items".
+- Analiza jest dostępna tylko dla użytkownika, który ma ją zapisaną w swoich "Saved Items".
 
 ## 2. Szczegóły żądania
 
@@ -31,7 +30,6 @@ Endpoint służy do pobierania szczegółów pojedynczej analizy językowej. Dos
       "originalText": "...",
       "translation": "...",
       "data": { ... },
-      "isFeatured": false,
       "createdAt": "ISO-8601 string"
     }
   }
@@ -39,7 +37,7 @@ Endpoint służy do pobierania szczegółów pojedynczej analizy językowej. Dos
 
 - **Błędy:**
   - `400 Bad Request` — podane ID nie jest poprawnym UUID.
-  - `401 Unauthorized` — użytkownik nie jest zalogowany, a analiza nie jest publiczna (`isFeatured: false`).
+  - `401 Unauthorized` — użytkownik nie jest zalogowany.
   - `404 Not Found` — analiza nie istnieje lub użytkownik nie ma do niej uprawnień.
   - `500 Internal Server Error` — błąd połączenia z bazą danych.
 
@@ -50,8 +48,7 @@ Endpoint służy do pobierania szczegółów pojedynczej analizy językowej. Dos
 3. **Kontekst użytkownika:** Pobranie ID zalogowanego użytkownika z `context.locals.supabase`.
 4. **Warstwa serwisu:** Wywołanie `AnalysisService.getAnalysisById(supabase, analysisId, userId)`:
    - Zapytanie do tabeli `analyses` po ID.
-   - Sprawdzenie flagi `is_featured`.
-   - Jeśli nie `featured`, sprawdzenie obecności rekordu w `user_saved_items` dla danego użytkownika.
+   - Sprawdzenie obecności rekordu w `user_saved_items` dla danego użytkownika.
 5. **Odpowiedź:** Mapowanie wyniku bazy danych na `AnalysisDTO` i zwrot JSON.
 
 ## 6. Względy bezpieczeństwa
@@ -67,7 +64,7 @@ Endpoint służy do pobierania szczegółów pojedynczej analizy językowej. Dos
 
 ## 8. Rozważania dotyczące wydajności
 
-- Zapytanie do bazy: jeden SELECT po `analyses.id`, ewentualnie drugi SELECT do `user_saved_items` gdy analiza nie jest featured.
+- Zapytanie do bazy: jeden SELECT po `analyses.id`, ewentualnie drugi SELECT do `user_saved_items`.
 - Tabela `analyses` ma indeks na kluczu głównym `id`. Indeks na `user_saved_items(user_id, analysis_id)` ułatwia sprawdzenie zapisów.
 
 ## 9. Etapy wdrożenia
@@ -75,7 +72,6 @@ Endpoint służy do pobierania szczegółów pojedynczej analizy językowej. Dos
 1. **Rozszerzenie serwisu** — w `src/lib/services/analysis.service.ts` dodać funkcję `getAnalysisById(supabase, analysisId, userId?)`:
    - Pobranie analizy z `analyses` po `id`.
    - Jeśli brak rekordu → `null`.
-   - Jeśli `is_featured === true` → zwróć DTO.
    - Jeśli użytkownik niezalogowany (`!userId`) → `null`.
    - Sprawdzenie `user_saved_items` dla `user_id` i `analysis_id`; jeśli jest wpis → zwróć DTO, w przeciwnym razie `null`.
 

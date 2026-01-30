@@ -48,15 +48,8 @@ export interface AnalysisDTO {
   originalText: string;
   translation: string | null;
   data: AnalysisDataDTO;
-  isFeatured: boolean;
   createdAt: string;
 }
-
-/** Lightweight analysis for list views (omits full data field) */
-export type FeaturedAnalysisItemDTO = Pick<
-  AnalysisDTO,
-  "id" | "originalText" | "translation" | "isFeatured" | "createdAt"
->;
 
 /** Input for POST /api/analyses (max 280 chars) */
 export interface CreateAnalysisCommand {
@@ -67,14 +60,6 @@ export interface CreateAnalysisCommand {
 export interface CreateAnalysisResponseDTO {
   analysis: AnalysisDTO;
   deduplicated: boolean;
-}
-
-/** Response for GET /api/analyses/featured */
-export interface PaginatedFeaturedAnalysesDTO {
-  items: FeaturedAnalysisItemDTO[];
-  page: number;
-  pageSize: number;
-  total: number;
 }
 
 // =============================================================================
@@ -115,34 +100,6 @@ export interface PaginatedSavedItemsDTO {
 }
 
 // =============================================================================
-// Report DTOs
-// =============================================================================
-
-/** Report status */
-export type ReportStatus = "pending" | "reviewed" | "rejected";
-
-/** Analysis report */
-export interface ReportDTO {
-  id: string;
-  analysisId: string;
-  reporterId: string;
-  status: ReportStatus;
-  reason: string | null;
-  createdAt: string;
-}
-
-/** Input for POST /api/reports */
-export interface CreateReportCommand {
-  analysisId: string;
-  reason?: string;
-}
-
-/** Response for POST /api/reports */
-export interface CreateReportResponseDTO {
-  report: ReportDTO;
-}
-
-// =============================================================================
 // Query Parameter Types
 // =============================================================================
 
@@ -157,11 +114,6 @@ export interface ListQueryParams {
   sort?: string;
   /** Sort order (default: desc) */
   order?: "asc" | "desc";
-}
-
-/** Query parameters for GET /api/analyses/featured */
-export interface FeaturedAnalysesQueryParams extends ListQueryParams {
-  sort?: "createdAt" | "originalText";
 }
 
 /** Query parameters for GET /api/saved-items */

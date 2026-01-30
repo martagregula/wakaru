@@ -15,8 +15,8 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 | **Nazwa** | Widok Analizy (Home) |
 | **Ścieżka** | `/` |
 | **Główny cel** | Umożliwienie przeglądania przykładów (gość) lub wprowadzenia tekstu japońskiego i wyświetlenia analizy (zalogowany); prezentacja wyników w formie interaktywnych tokenów i tłumaczenia. |
-| **Kluczowe informacje** | Dla gościa: sekcja z przykładowymi zdaniami (dane z `GET /api/analyses/featured`). Dla zalogowanego: pole tekstowe (max 280 znaków), licznik znaków, po analizie — siatka tokenów z kolorami POS, tłumaczenie zdania, stan zapisu (zapisane/niezapisane). |
-| **Kluczowe komponenty** | Layout z Topbarem, Textarea z walidacją i licznikiem, przycisk analizy, sekcja przykładów (karty/lista), sekcja wyników: grid tokenów (każdy token z Popoverem), blok tłumaczenia, pasek akcji (Zapisz, Kopiuj, Zgłoś), Skeleton w stanie ładowania. |
+| **Kluczowe informacje** | Dla zalogowanego: pole tekstowe (max 280 znaków), licznik znaków, po analizie — siatka tokenów z kolorami POS, tłumaczenie zdania, stan zapisu (zapisane/niezapisane). |
+| **Kluczowe komponenty** | Layout z Topbarem, Textarea z walidacją i licznikiem, przycisk analizy, sekcja wyników: grid tokenów (każdy token z Popoverem), blok tłumaczenia, pasek akcji (Zapisz, Kopiuj), Skeleton w stanie ładowania. |
 | **UX, a11y, bezpieczeństwo** | Układ wertykalny: pole na górze, wyniki poniżej. Walidacja po stronie klienta — blokada wysłania przy braku znaków japońskich. Stany ładowania przez Skeleton zamiast spinnerów. Tokeny z wyraźnym focusem i obsługą klawiatury (Radix Popover). Gość widzi input; próba analizy wyzwala modal logowania (konwersja gościa). |
 
 ---
@@ -28,9 +28,9 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 | **Nazwa** | Widok pojedynczej analizy |
 | **Ścieżka** | `/analysis/[id]` (lub ekwiwalent z parametrem zapytania) |
 | **Główny cel** | Wyświetlenie pełnego wyniku analizy po kliknięciu w element z listy „Moje Zdania” lub w przykład na stronie głównej — bez ponownego wywołania API AI. |
-| **Kluczowe informacje** | Oryginalny tekst, tokeny z kolorami POS, tłumaczenie, opcjonalnie data zapisu/utworzenia; dla zapisanych — pasek akcji (np. Usuń z biblioteki, Kopiuj, Zgłoś). |
+| **Kluczowe informacje** | Oryginalny tekst, tokeny z kolorami POS, tłumaczenie, opcjonalnie data zapisu/utworzenia; dla zapisanych — pasek akcji (np. Usuń z biblioteki, Kopiuj). |
 | **Kluczowe komponenty** | Ten sam zestaw co w widoku Analizy dla „wyników”: grid tokenów z Popoverami, blok tłumaczenia, pasek akcji; brak pola input. Dane z `GET /api/analyses/:id`. Opcjonalnie breadcrumb / link powrotu do Biblioteki lub Home. |
-| **UX, a11y, bezpieczeństwo** | Spójna prezentacja z widokiem Analizy. Ładowanie pojedynczego rekordu z API; Skeleton do czasu załadowania. Dostęp tylko do analiz featured lub należących do użytkownika (zgodnie z API). |
+| **UX, a11y, bezpieczeństwo** | Spójna prezentacja z widokiem Analizy. Ładowanie pojedynczego rekordu z API; Skeleton do czasu załadowania. Dostęp tylko do analiz należących do użytkownika (zgodnie z API). |
 
 ---
 
@@ -60,20 +60,7 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 
 ---
 
-### 2.5. Modal zgłoszenia błędu (Report Issue)
-
-| Aspekt | Opis |
-|--------|------|
-| **Nazwa** | Modal Zgłoś błąd |
-| **Ścieżka** | Overlay; wywołanie z paska akcji przy wynikach analizy. |
-| **Główny cel** | Zgłoszenie błędnej analizy (flaga + opcjonalny komentarz) bez opuszczania widoku. |
-| **Kluczowe informacje** | Id analizy przekazywane w tle; opcjonalne pole tekstowe na komentarz użytkownika. Przycisk „Wyślij”, potwierdzenie sukcesu. |
-| **Kluczowe komponenty** | Dialog z opcjonalnym polem tekstowym, przycisk wysyłki; wywołanie `POST /api/reports` z `analysisId` i opcjonalnym `reason`. |
-| **UX, a11y, bezpieczeństwo** | Minimalny wysiłek (można wysłać tylko flagę). Komentarz opcjonalny dla chętnych. Toaster przy sukcesie/błędzie. Tylko zalogowani (API 401). |
-
----
-
-### 2.6. Globalny layout (Shell)
+### 2.5. Globalny layout (Shell)
 
 | Aspekt | Opis |
 |--------|------|
@@ -89,16 +76,16 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 ## 3. Mapa podróży użytkownika
 
 - **Gość na stronie głównej (`/`)**  
-  Widzi pole tekstowe i sekcję przykładów. Może kliknąć przykład → natychmiastowe wyświetlenie analizy (dane z featured). Próba uruchomienia analizy własnego tekstu → otwiera się modal logowania (konwersja gościa). Z Topbara może kliknąć „Zaloguj” lub „Zarejestruj” → modale bez zmiany strony.
+  Widzi pole tekstowe. Próba uruchomienia analizy własnego tekstu → otwiera się modal logowania (konwersja gościa). Z Topbara może kliknąć „Zaloguj” lub „Zarejestruj” → modale bez zmiany strony.
 
 - **Rejestracja / logowanie**  
   Wypełnienie formularza w modalu → sukces → modal się zamyka, użytkownik zalogowany; Topbar pokazuje avatar i „Zapisane”. Błąd → komunikat w modalu.
 
 - **Zalogowany użytkownik na stronie głównej**  
-  Wpisuje tekst japoński → walidacja (znaki JP, max 280) → wysłanie `POST /api/analyses` → Skeleton → wyniki (tokeny + tłumaczenie). Może kliknąć token → Popover ze szczegółami. Może zapisać (`POST /api/saved-items`; sukces lub błąd w Toasterze po odpowiedzi serwera), skopiować, zgłosić (modal Report). Może przejść do „Moje Zdania”.
+  Wpisuje tekst japoński → walidacja (znaki JP, max 280) → wysłanie `POST /api/analyses` → Skeleton → wyniki (tokeny + tłumaczenie). Może kliknąć token → Popover ze szczegółami. Może zapisać (`POST /api/saved-items`; sukces lub błąd w Toasterze po odpowiedzi serwera), skopiować. Może przejść do „Moje Zdania”.
 
 - **Zalogowany w Bibliotece (`/moje-zdania`)**  
-  Widzi sticky wyszukiwarkę i listę (Infinite Scroll). Wpisuje w wyszukiwarkę → filtrowanie (`q`). Klik w element listy → przejście do widoku pojedynczej analizy (`/analiza/[id]`) → dane z `GET /api/analyses/:id`. W widoku analizy może usunąć z biblioteki, zgłosić, skopiować.
+  Widzi sticky wyszukiwarkę i listę (Infinite Scroll). Wpisuje w wyszukiwarkę → filtrowanie (`q`). Klik w element listy → przejście do widoku pojedynczej analizy (`/analiza/[id]`) → dane z `GET /api/analyses/:id`. W widoku analizy może usunąć z biblioteki, skopiować.
 
 - **Powrót**  
   Z widoku pojedynczej analizy: link/breadcrumb do „Moje Zdania” lub „Analiza”. Z Topbara: stale dostępne „Analiza” i „Moje Zdania”.
@@ -126,13 +113,12 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 |-----------|----------------|
 | **Topbar** | Sticky nagłówek z logo, linkami (Analiza, Moje Zdania), ThemeToggle i akcją konta (Zaloguj / Avatar + menu). Używany w Layout na wszystkich stronach. |
 | **TokenTile** | Pojedynczy kafelek słowa w wynikach analizy: pastelowe, zaokrąglone tło według POS (obiekt konfiguracyjny POS → klasy Tailwind). Klik/ focus otwiera Popover z: surface, dictionaryForm, pos, reading, definition (i ewent. wyjaśnienie gramatyczne). Wspólny dla widoku Analizy i widoku pojedynczej analizy. |
-| **AnalysisResultBlock** | Sekcja zawierająca grid tokenów (TokenTile) + blok tłumaczenia zdania + pasek akcji (Zapisz, Kopiuj, Zgłoś). Używana na `/` po analizie oraz na `/analiza/[id]`. |
-| **AnalysisToolbar** | Pasek akcji przy wynikach: Zapisz (stan „zapisane” po pomyślnej odpowiedzi serwera; sukces/błąd w Toasterze), Kopiuj, Zgłoś (otwiera modal Report). |
+| **AnalysisResultBlock** | Sekcja zawierająca grid tokenów (TokenTile) + blok tłumaczenia zdania + pasek akcji (Zapisz, Kopiuj). Używana na `/` po analizie oraz na `/analiza/[id]`. |
+| **AnalysisToolbar** | Pasek akcji przy wynikach: Zapisz (stan „zapisane” po pomyślnej odpowiedzi serwera; sukces/błąd w Toasterze), Kopiuj. |
 | **SearchBar** | Pole wyszukiwania w nagłówku Biblioteki; kontrolowane input z debounce lub submit; parametr `q` do `GET /api/saved-items`. |
 | **SavedItemCard** | Karta jednego zapisanego zdania: fragment tekstu JP (Noto Sans JP, większy), tłumaczenie, data relatywna; klik → nawigacja do `/analiza/[id]`. Opcjonalnie ikona „Usuń z biblioteki”. |
 | **EmptyState** | Dedykowany komponent dla pustej listy w Moje Zdania: ilustracja/ikona, krótki tekst zachęty, link do Analizy. |
 | **AuthModal (Login / Register)** | Dwa Dialogi (lub jeden z przełączaną treścią): formularze email/hasło, walidacja, przełączanie między logowaniem a rejestracją. |
-| **ReportIssueModal** | Dialog z opcjonalnym polem komentarza i przyciskiem wysyłki; wywołuje `POST /api/reports`. |
 | **Toaster** | Globalne powiadomienia (Sonner): sukces zapisu, błąd API, błąd walidacji. |
 | **Skeleton** | Placeholdery ładowania dla listy w Bibliotece, dla bloku wyników analizy i dla pojedynczego widoku analizy zamiast spinnerów. |
 
@@ -142,14 +128,12 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 
 | ID | Historyjka | Elementy UI |
 |----|------------|-------------|
-| US-001 | Przeglądanie przykładów bez logowania | Widok Analizy (`/`): sekcja przykładów; klik przykładu → wynik z `GET /api/analyses/featured` lub `/api/analyses/:id`; brak wymogu logowania. |
 | US-002 | Rejestracja | Modal rejestracji (email, hasło); walidacja; po sukcesie auto-login i zamknięcie modala. |
 | US-003 | Logowanie | Modal logowania; komunikaty błędów; sesja utrzymywana po odświeżeniu (Supabase). |
 | US-004 | Analiza nowego zdania | Widok Analizy: Textarea (max 280), walidacja JP, przycisk analizy; Skeleton; AnalysisResultBlock (tokeny + tłumaczenie). |
 | US-005 | Szczegóły słowa | TokenTile + Popover po kliknięciu: forma słownikowa, gramatyka, definicja (desktop: klik; obsługa dotyku zgodnie z Radix). |
 | US-006 | Zapisywanie analizy | AnalysisToolbar: przycisk „Zapisz”; `POST /api/saved-items`; Toaster z potwierdzeniem sukcesu lub błędu po odpowiedzi serwera. |
 | US-007 | Przeglądanie historii | Widok Moje Zdania (`/moje-zdania`): lista z Infinite Scroll; SavedItemCard; klik → `/analiza/[id]` z danymi z API. |
-| US-009 | Zgłaszanie błędów | Przycisk „Zgłoś” w AnalysisToolbar → ReportIssueModal (opcjonalny komentarz) → `POST /api/reports`. |
 | US-010 | Wyszukiwanie w historii | SearchBar w sticky nagłówku Biblioteki; parametr `q` do `GET /api/saved-items`; filtrowanie listy. |
 
 ---
@@ -162,8 +146,7 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 - **Tłumaczenie zdania**: Blok tekstu pod gridem tokenów w AnalysisResultBlock.
 - **Auth email/hasło**: Modale logowania i rejestracji (Supabase).
 - **Zapisz / lista / wyszukiwarka**: Przycisk Zapisz, widok Moje Zdania z Infinite Scroll i SearchBar; API saved-items i analyses.
-- **Report Issue**: Przycisk Zgłoś + modal z opcjonalnym polem (reason).
-- **Gość tylko przykłady**: Strona główna pokazuje przykłady; analiza własnego tekstu wymusza modal logowania.
+- **Gość**: Analiza własnego tekstu wymusza modal logowania.
 
 ---
 
@@ -174,7 +157,7 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 - **Błąd 429 (rate limit)** lub **500 (AI/backend)**: Toaster z komunikatem; użytkownik może spróbować ponownie.
 - **Pusta lista Moje Zdania**: Empty State z zachętą do pierwszej analizy i zapisu.
 - **Błąd ładowania pojedynczej analizy (404)**: Komunikat w widoku (np. „Nie znaleziono”) i link powrotu.
-- **Błąd odpowiedzi API (np. niepoprawny format)**: Toaster z komunikatem; opcjonalnie przycisk „Zgłoś”. Walidacja danych po stronie backendu.
+- **Błąd odpowiedzi API (np. niepoprawny format)**: Toaster z komunikatem. Walidacja danych po stronie backendu.
 - **Długi tekst (np. wklejony > 280 znaków)**: Obcięcie lub walidacja i komunikat; licznik znaków informuje o limicie.
 
 ---
@@ -182,12 +165,10 @@ Architektura interfejsu Wakaru opiera się na modelu **Server-Side Rendering (SS
 ## 9. Zgodność z planem API
 
 - **POST /api/analyses**: Wywołanie z widoku Analizy po walidacji; wynik renderowany w AnalysisResultBlock. Walidacja danych po stronie backendu.
-- **GET /api/analyses/:id**: Używany w widoku pojedynczej analizy oraz po kliknięciu przykładu/ elementu Biblioteki.
-- **GET /api/analyses/featured**: Lista przykładów na stronie głównej (strona, wyszukiwanie, sortowanie według planu API).
+- **GET /api/analyses/:id**: Używany w widoku pojedynczej analizy oraz po kliknięciu elementu Biblioteki.
 - **POST /api/saved-items**: Przycisk Zapisz; body `{ analysisId }`;.
 - **GET /api/saved-items**: Lista w Moje Zdania z parametrami `q`, `page`, `pageSize`, `sort`, `order`; Infinite Scroll zwiększa `page`.
 - **DELETE /api/saved-items/:id**: Opcjonalnie w karcie w Bibliotece lub w widoku pojedynczej analizy („Usuń z biblioteki”).
-- **POST /api/reports**: ReportIssueModal z `analysisId` i opcjonalnym `reason`.
 
 Autoryzacja: token JWT (Supabase) w żądaniach; trasy chronione i zachowanie gościa vs zalogowany zgodne z opisem autoryzacji w planie API.
 

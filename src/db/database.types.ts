@@ -25,7 +25,6 @@ export interface Database {
           created_at: string;
           data: Json;
           id: string;
-          is_featured: boolean;
           original_text: string;
           text_hash: string;
           translation: string | null;
@@ -34,7 +33,6 @@ export interface Database {
           created_at?: string;
           data: Json;
           id?: string;
-          is_featured?: boolean;
           original_text: string;
           text_hash: string;
           translation?: string | null;
@@ -43,47 +41,11 @@ export interface Database {
           created_at?: string;
           data?: Json;
           id?: string;
-          is_featured?: boolean;
           original_text?: string;
           text_hash?: string;
           translation?: string | null;
         };
         Relationships: [];
-      };
-      analysis_reports: {
-        Row: {
-          analysis_id: string;
-          created_at: string;
-          id: string;
-          reason: string | null;
-          reporter_id: string;
-          status: string;
-        };
-        Insert: {
-          analysis_id: string;
-          created_at?: string;
-          id?: string;
-          reason?: string | null;
-          reporter_id: string;
-          status?: string;
-        };
-        Update: {
-          analysis_id?: string;
-          created_at?: string;
-          id?: string;
-          reason?: string | null;
-          reporter_id?: string;
-          status?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "analysis_reports_analysis_id_fkey";
-            columns: ["analysis_id"];
-            isOneToOne: false;
-            referencedRelation: "analyses";
-            referencedColumns: ["id"];
-          },
-        ];
       };
       user_saved_items: {
         Row: {

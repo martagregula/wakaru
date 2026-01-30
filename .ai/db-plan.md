@@ -25,7 +25,6 @@ The central repository for analysis results. Designed to be shared across users 
 | `translation` | `text` | | The full sentence translation provided by AI. |
 | `data` | `jsonb` | NOT NULL | Structured output: tokens (surface, pos, reading, meaning), difficulty, etc. |
 | `text_hash` | `text` | UNIQUE, NOT NULL | SHA-256 hash of `original_text` for fast lookups/deduplication. |
-| `is_featured` | `boolean` | DEFAULT false | Flag for public/example sentences available to all users. |
 | `created_at` | `timestamptz` | DEFAULT now(), NOT NULL | Analysis creation timestamp. |
 
 ### `user_saved_items`
@@ -43,24 +42,10 @@ A join table representing the "My Saved Items" library. Maps users to analyses.
 - FK `analysis_id` has `ON DELETE RESTRICT` (cannot delete an analysis if users have saved it).
 - FK `user_id` has `ON DELETE CASCADE` (if user is deleted, their saved items are removed).
 
-### `analysis_reports`
-Allows users to flag incorrect analysis results (US-009).
-
-| Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `uuid` | PK, DEFAULT gen_random_uuid() | Unique report ID. |
-| `analysis_id` | `uuid` | FK to `analyses(id)`, NOT NULL | The flagged analysis. |
-| `reporter_id` | `uuid` | FK to `auth.users(id)`, NOT NULL | The user reporting the issue. |
-| `reason` | `text` | | Optional user-provided reason. |
-| `status` | `text` | DEFAULT 'pending' | Status: 'pending', 'reviewed', 'rejected'. |
-| `created_at` | `timestamptz` | DEFAULT now(), NOT NULL | Report timestamp. |
-
 ## 3. Relationships
 
 - **users** - **user_saved_items**: One-to-Many (1:N). A user can save many items.
 - **analyses** - **user_saved_items**: One-to-Many (1:N). An analysis can be saved by many users.
-- **users** - **analysis_reports**: One-to-Many (1:N).
-- **analyses** - **analysis_reports**: One-to-Many (1:N).
 
 ## 4. Indexes
 
@@ -80,16 +65,12 @@ To ensure high performance for critical read paths:
 ### RLS Policies - IGNORE FOR NOW!
 
 - **analyses**:
-    - `SELECT`: Permitted if `is_featured = true` OR if the user has a corresponding record in `user_saved_items`. (Note: During creation, the backend/RPC will bypass RLS to check existence/insert new records).
+    - `SELECT`: Permitted if the user has a corresponding record in `user_saved_items`. (Note: During creation, the backend/RPC will bypass RLS to check existence/insert new records).
 
 - **user_saved_items**:
     - `SELECT`: Users can view their own rows (where `user_id = auth.uid()`).
     - `INSERT`: Users can insert rows linked to their own `user_id` (where `user_id = auth.uid()`).
     - `DELETE`: Users can delete their own rows (where `user_id = auth.uid()`).
-
-- **analysis_reports**:
-    - `INSERT`: Authenticated users can create reports (where `reporter_id = auth.uid()`).
-    - `SELECT`: Users can view their own reports (or admins only).
 
 ## 6. Implementation Notes
 

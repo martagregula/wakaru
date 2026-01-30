@@ -55,7 +55,6 @@ export async function createAnalysis(
       text_hash: textHash,
       data: analysisData as unknown as Database["public"]["Tables"]["analyses"]["Insert"]["data"],
       translation: translation || null,
-      is_featured: false,
     })
     .select()
     .single();
@@ -87,7 +86,6 @@ function mapDatabaseRowToDTO(row: Database["public"]["Tables"]["analyses"]["Row"
     originalText: row.original_text,
     translation: row.translation,
     data: row.data as unknown as AnalysisDataDTO,
-    isFeatured: row.is_featured,
     createdAt: row.created_at,
   };
 }
