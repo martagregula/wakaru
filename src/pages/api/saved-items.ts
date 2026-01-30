@@ -18,7 +18,7 @@ const CreateSavedItemSchema = z.object({
  * Saves analysis in the user's library.
  *
  * Manual test (requires authenticated session cookie):
- * curl -i -X POST http://localhost:4321/api/saved-items \
+ * curl -i -X POST http://localhost:3000/api/saved-items \
  *   -H "Content-Type: application/json" \
  *   -H "Cookie: <YOUR_SUPABASE_AUTH_COOKIE>" \
  *   -d '{"analysisId":"<analysis-uuid>"}'
