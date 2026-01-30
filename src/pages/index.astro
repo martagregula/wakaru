@@ -1,8 +1,12 @@
 ---
-import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
+import { AnalysisFeature } from "../components/features/analysis/AnalysisFeature";
+
+const { data: authData } = await Astro.locals.supabase.auth.getUser();
+
+const isLoggedIn = Boolean(authData?.user);
 ---
 
-<Layout>
-  <Welcome />
+<Layout title="Wakaru">
+  <AnalysisFeature client:load isLoggedIn={isLoggedIn} />
 </Layout>
