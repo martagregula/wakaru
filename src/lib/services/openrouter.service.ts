@@ -164,15 +164,32 @@ export class OpenRouterService {
   private convertZodToJsonSchema<T>(schema: ZodSchema<T>, name: string): object {
     const jsonSchema = zodToJsonSchema(schema, { name });
     const sanitizedSchema = this.enforceNoAdditionalProperties(jsonSchema);
+    const rootSchema = this.unwrapRootSchema(sanitizedSchema, name);
 
     return {
       type: "json_schema",
       json_schema: {
         name,
         strict: true,
-        schema: sanitizedSchema,
+        schema: rootSchema,
       },
     };
+  }
+
+  private unwrapRootSchema(schema: unknown, name: string): unknown {
+    if (!schema || typeof schema !== "object") {
+      return schema;
+    }
+
+    const record = schema as Record<string, unknown>;
+    const definitions = record.definitions as Record<string, unknown> | undefined;
+    const root = (definitions?.[name] as Record<string, unknown> | undefined) ?? record;
+
+    if (!("type" in root)) {
+      root.type = "object";
+    }
+
+    return root;
   }
 
   private enforceNoAdditionalProperties(schema: unknown): unknown {
