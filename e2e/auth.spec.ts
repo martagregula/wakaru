@@ -17,6 +17,7 @@ function assertE2ECredentials() {
 
 test.describe("Auth and account management", () => {
   test("TC-04 Rejestracja nowego użytkownika -> auto-login", async ({ page }) => {
+    test.skip(!!process.env.CI, "Rejestracja w CI wymaga potwierdzenia email.");
     const registerPage = new RegisterPage(page);
     const header = new Header(page);
     const uniqueEmail = `mgregula+wakaru-${Date.now()}@gmail.com`;

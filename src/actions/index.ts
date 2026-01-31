@@ -62,10 +62,17 @@ export const server = {
           cookies: context.cookies,
           headers: context.request.headers,
         });
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email: input.email,
           password: input.password,
         });
+
+        if (data.user && data.user.identities?.length === 0) {
+          throw new ActionError({
+            code: "BAD_REQUEST",
+            message: authErrorMessages.user_already_exists,
+          });
+        }
 
         if (error) {
           throw new ActionError({
