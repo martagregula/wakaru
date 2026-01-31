@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import { actions } from "astro:actions";
 import { Toaster } from "../components/ui/toaster";
 
 interface Props {
@@ -31,7 +30,7 @@ const user = Astro.locals.user;
                 <a class="text-foreground hover:text-primary" href="/sentences">
                   Moje Zdania
                 </a>
-                <form method="post" action={actions.auth.logout}>
+                <form method="post" action="/logout">
                   <button
                     class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
                     type="submit"

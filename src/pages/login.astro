@@ -21,7 +21,11 @@ const formError = result?.error && !isInputError(result.error) ? result.error.me
 ---
 
 <Layout title="Zaloguj się | Wakaru">
-  <AuthLayout title="Witaj ponownie" description="Zaloguj się, aby wrócić do zapisanych analiz.">
+  <AuthLayout
+    title="Witaj ponownie"
+    description="Zaloguj się, aby wrócić do zapisanych analiz."
+    user={Astro.locals.user}
+  >
     <LoginForm action={actions.auth.login} fieldErrors={fieldErrors} formError={formError} />
   </AuthLayout>
 </Layout>

@@ -1,11 +1,12 @@
 ---
+export const prerender = false;
 import Layout from "../layouts/Layout.astro";
 import { AuthLayout } from "../components/auth/AuthLayout";
 import { RecoveryForm } from "../components/auth/RecoveryForm";
 ---
 
 <Layout title="Odzyskaj konto | Wakaru">
-  <AuthLayout title="Odzyskaj konto" description="Podaj adres email, aby odzyskać dostęp.">
+  <AuthLayout title="Odzyskaj konto" description="Podaj adres email, aby odzyskać dostęp." user={Astro.locals.user}>
     <RecoveryForm />
   </AuthLayout>
 </Layout>

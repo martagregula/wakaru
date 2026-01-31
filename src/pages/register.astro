@@ -21,7 +21,7 @@ const formError = result?.error && !isInputError(result.error) ? result.error.me
 ---
 
 <Layout title="Zarejestruj się | Wakaru">
-  <AuthLayout title="Utwórz konto" description="Dołącz do Wakaru i zapisuj swoje analizy.">
+  <AuthLayout title="Utwórz konto" description="Dołącz do Wakaru i zapisuj swoje analizy." user={Astro.locals.user}>
     <RegisterForm action={actions.auth.register} fieldErrors={fieldErrors} formError={formError} />
   </AuthLayout>
 </Layout>

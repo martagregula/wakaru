@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+const supabase = Astro.locals.supabase;
+
+if (Astro.request.method !== "POST") {
+  return Astro.redirect("/");
+}
+
+if (!supabase) {
+  console.error("Supabase client missing in locals during logout.");
+  return Astro.redirect("/login");
+}
+
+const { error } = await supabase.auth.signOut();
+
+if (error) {
+  console.error("Failed to sign out:", error.message);
+}
+
+return Astro.redirect("/login");
+---
