@@ -27,13 +27,14 @@ const user = Astro.locals.user;
           {
             user ? (
               <>
-                <a class="text-foreground hover:text-primary" href="/saved">
+                <a class="text-foreground hover:text-primary" href="/saved" data-testid="nav-saved-link">
                   Moje Zdania
                 </a>
                 <form method="post" action="/logout">
                   <button
                     class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
                     type="submit"
+                    data-testid="nav-logout-button"
                   >
                     Wyloguj
                   </button>
@@ -41,12 +42,13 @@ const user = Astro.locals.user;
               </>
             ) : (
               <>
-                <a class="text-foreground hover:text-primary" href="/login">
+                <a class="text-foreground hover:text-primary" href="/login" data-testid="nav-login-link">
                   Zaloguj
                 </a>
                 <a
                   class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
                   href="/register"
+                  data-testid="nav-register-link"
                 >
                   Zarejestruj
                 </a>

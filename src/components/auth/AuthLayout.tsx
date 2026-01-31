@@ -31,11 +31,20 @@ function AuthLayout({ title, description, children, footer, className, user, log
     >
       <div className="w-full max-w-md">
         {isLoggedIn ? (
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/70 px-4 py-3 text-sm text-foreground/80 shadow-sm backdrop-blur">
+          <div
+            className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/70 px-4 py-3 text-sm text-foreground/80 shadow-sm backdrop-blur"
+            data-testid="auth-logged-in-banner"
+          >
             <span aria-live="polite">Zalogowano jako {user?.email}</span>
             {canLogout ? (
               <form method="post" action={resolvedLogoutAction}>
-                <Button type="submit" variant="outline" size="sm" aria-label="Wyloguj się z aplikacji">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  size="sm"
+                  aria-label="Wyloguj się z aplikacji"
+                  data-testid="auth-logout-button"
+                >
                   Wyloguj się
                 </Button>
               </form>

@@ -15,11 +15,12 @@ function RegisterForm({ action, fieldErrors, formError }: RegisterFormProps) {
   const passwordConfirmError = fieldErrors?.passwordConfirm?.join(", ");
 
   return (
-    <form className="space-y-6" method="post" action={action} noValidate>
+    <form className="space-y-6" method="post" action={action} noValidate data-testid="register-form">
       {formError ? (
         <div
           className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
           role="alert"
+          data-testid="register-form-error"
         >
           {formError}
         </div>
@@ -36,11 +37,17 @@ function RegisterForm({ action, fieldErrors, formError }: RegisterFormProps) {
           autoComplete="email"
           placeholder="np. akiko@example.com"
           required
+          data-testid="register-email-input"
           aria-invalid={Boolean(emailError)}
           aria-describedby={emailError ? "register-email-error" : undefined}
         />
         {emailError ? (
-          <p className="text-xs text-destructive" id="register-email-error" role="alert">
+          <p
+            className="text-xs text-destructive"
+            id="register-email-error"
+            role="alert"
+            data-testid="register-email-error"
+          >
             {emailError}
           </p>
         ) : null}
@@ -58,11 +65,17 @@ function RegisterForm({ action, fieldErrors, formError }: RegisterFormProps) {
           placeholder="Minimum 6 znaków"
           required
           minLength={6}
+          data-testid="register-password-input"
           aria-invalid={Boolean(passwordError)}
           aria-describedby={passwordError ? "register-password-error" : undefined}
         />
         {passwordError ? (
-          <p className="text-xs text-destructive" id="register-password-error" role="alert">
+          <p
+            className="text-xs text-destructive"
+            id="register-password-error"
+            role="alert"
+            data-testid="register-password-error"
+          >
             {passwordError}
           </p>
         ) : null}
@@ -83,17 +96,23 @@ function RegisterForm({ action, fieldErrors, formError }: RegisterFormProps) {
           placeholder="Powtórz hasło"
           required
           minLength={6}
+          data-testid="register-password-confirm-input"
           aria-invalid={Boolean(passwordConfirmError)}
           aria-describedby={passwordConfirmError ? "register-password-confirm-error" : undefined}
         />
         {passwordConfirmError ? (
-          <p className="text-xs text-destructive" id="register-password-confirm-error" role="alert">
+          <p
+            className="text-xs text-destructive"
+            id="register-password-confirm-error"
+            role="alert"
+            data-testid="register-password-confirm-error"
+          >
             {passwordConfirmError}
           </p>
         ) : null}
       </div>
 
-      <Button className="w-full" type="submit">
+      <Button className="w-full" type="submit" data-testid="register-submit-button">
         Utwórz konto
       </Button>
 

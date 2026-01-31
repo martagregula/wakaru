@@ -14,11 +14,12 @@ function LoginForm({ action, fieldErrors, formError }: LoginFormProps) {
   const passwordError = fieldErrors?.password?.join(", ");
 
   return (
-    <form className="space-y-6" method="post" action={action} noValidate>
+    <form className="space-y-6" method="post" action={action} noValidate data-testid="login-form">
       {formError ? (
         <div
           className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
           role="alert"
+          data-testid="login-form-error"
         >
           {formError}
         </div>
@@ -35,11 +36,17 @@ function LoginForm({ action, fieldErrors, formError }: LoginFormProps) {
           autoComplete="email"
           placeholder="np. akiko@example.com"
           required
+          data-testid="login-email-input"
           aria-invalid={Boolean(emailError)}
           aria-describedby={emailError ? "login-email-error" : undefined}
         />
         {emailError ? (
-          <p className="text-xs text-destructive" id="login-email-error" role="alert">
+          <p
+            className="text-xs text-destructive"
+            id="login-email-error"
+            role="alert"
+            data-testid="login-email-error"
+          >
             {emailError}
           </p>
         ) : null}
@@ -57,11 +64,17 @@ function LoginForm({ action, fieldErrors, formError }: LoginFormProps) {
           placeholder="Wpisz hasło"
           required
           minLength={6}
+          data-testid="login-password-input"
           aria-invalid={Boolean(passwordError)}
           aria-describedby={passwordError ? "login-password-error" : undefined}
         />
         {passwordError ? (
-          <p className="text-xs text-destructive" id="login-password-error" role="alert">
+          <p
+            className="text-xs text-destructive"
+            id="login-password-error"
+            role="alert"
+            data-testid="login-password-error"
+          >
             {passwordError}
           </p>
         ) : null}
@@ -73,7 +86,7 @@ function LoginForm({ action, fieldErrors, formError }: LoginFormProps) {
         </a>
       </div>
 
-      <Button className="w-full" type="submit">
+      <Button className="w-full" type="submit" data-testid="login-submit-button">
         Zaloguj się
       </Button>
 
