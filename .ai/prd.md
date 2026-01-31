@@ -56,16 +56,16 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 
 ### US-002: Rejestracja użytkownika
 *   Tytuł: Zakładanie konta
-*   Opis: Jako nowy użytkownik chcę utworzyć konto przy użyciu adresu email i hasła, aby móc analizować własne zdania i je zapisywać.
+*   Opis: Jako nowy użytkownik chcę utworzyć konto przy użyciu adresu email i hasła, aby móc analizować zdania i je zapisywać.
 *   Kryteria akceptacji:
     *   Formularz rejestracji przyjmuje email i hasło.
     *   System waliduje poprawność formatu email.
-    *   Po udanej rejestracji użytkownik jest automatycznie zalogowany.
+    *   Po udanej rejestracji użytkownik musi potwierdzić email.
     *   Konto użytkownika jest tworzone w bazie Supabase.
 
 ### US-003: Logowanie do systemu
 *   Tytuł: Uwierzytelnianie
-*   Opis: Jako powracający użytkownik chcę zalogować się na swoje konto, aby uzyskać dostęp do moich zapisanych zdań.
+*   Opis: Jako powracający użytkownik chcę zalogować się na swoje konto, aby móc analizować zdania i uzyskać dostęp do moich zapisanych zdań.
 *   Kryteria akceptacji:
     *   Użytkownik może zalogować się poprawnym emailem i hasłem.
     *   Błędne dane logowania wyświetlają odpowiedni komunikat błędu.
