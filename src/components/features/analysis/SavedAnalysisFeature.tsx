@@ -144,9 +144,13 @@ function SavedAnalysisFeature({ analysisId }: SavedAnalysisFeatureProps) {
   }, [analysis, isDeleting, savedItemId, toast]);
 
   return (
-    <section className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10" data-feature="saved-analysis">
+    <section
+      className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10"
+      data-feature="saved-analysis"
+      data-testid="saved-analysis-feature"
+    >
       {isLoading ? (
-        <Card>
+        <Card data-testid="saved-analysis-loading">
           <CardHeader>
             <Skeleton className="h-6 w-40" />
           </CardHeader>
@@ -162,10 +166,12 @@ function SavedAnalysisFeature({ analysisId }: SavedAnalysisFeatureProps) {
       ) : null}
 
       {error ? (
-        <Card>
+        <Card data-testid="saved-analysis-error-card">
           <CardContent className="flex flex-col items-center gap-3 py-8 text-center">
-            <p className="text-sm text-muted-foreground">{error}</p>
-            <Button type="button" variant="outline" onClick={handleRetry}>
+            <p className="text-sm text-muted-foreground" data-testid="saved-analysis-error-message">
+              {error}
+            </p>
+            <Button type="button" variant="outline" onClick={handleRetry} data-testid="saved-analysis-retry-button">
               Spróbuj ponownie
             </Button>
           </CardContent>

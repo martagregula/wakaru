@@ -9,6 +9,7 @@ class AnalysisPage {
   readonly tokenGrid: Locator;
   readonly tokenCards: Locator;
   readonly translationText: Locator;
+  readonly saveButton: Locator;
   readonly toastTitle: Locator;
   readonly toastDescription: Locator;
 
@@ -21,6 +22,7 @@ class AnalysisPage {
     this.tokenGrid = page.getByTestId("analysis-token-grid");
     this.tokenCards = page.getByTestId("analysis-token-card");
     this.translationText = page.getByTestId("analysis-translation-text");
+    this.saveButton = page.getByTestId("analysis-save-button");
     this.toastTitle = page.getByTestId("toast-title");
     this.toastDescription = page.getByTestId("toast-description");
   }

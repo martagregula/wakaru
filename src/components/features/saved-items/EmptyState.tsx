@@ -9,7 +9,7 @@ function EmptyState({ searchQuery }: EmptyStateProps) {
   const hasQuery = searchQuery.trim().length > 0;
 
   return (
-    <Card>
+    <Card data-testid="saved-items-empty-state">
       <CardContent className="flex flex-col items-center gap-4 py-12 text-center">
         <div className="space-y-1">
           <p className="text-lg font-semibold text-foreground">

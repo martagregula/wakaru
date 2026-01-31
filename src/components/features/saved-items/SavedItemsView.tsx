@@ -47,14 +47,18 @@ function SavedItemsView() {
   );
 
   return (
-    <section className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10" data-feature="saved-items">
+    <section
+      className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10"
+      data-feature="saved-items"
+      data-testid="saved-items-feature"
+    >
       <SavedItemsHeader onSearch={handleSearch} isSearching={isLoading && Boolean(searchQuery)} />
 
       {error ? (
-        <Card>
+        <Card data-testid="saved-items-error">
           <CardContent className="flex flex-col items-center gap-3 py-8 text-center">
             <p className="text-sm text-muted-foreground">{error}</p>
-            <Button type="button" variant="outline" onClick={retry}>
+            <Button type="button" variant="outline" onClick={retry} data-testid="saved-items-retry-button">
               Spróbuj ponownie
             </Button>
           </CardContent>

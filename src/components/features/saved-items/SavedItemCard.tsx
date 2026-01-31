@@ -44,12 +44,15 @@ function SavedItemCard({ item, onDelete }: SavedItemCardProps) {
       onClick={handleNavigate}
       onKeyDown={handleKeyDown}
       data-saved-item-id={item.savedItemId}
+      data-testid="saved-item-card"
     >
       <CardContent className="space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase text-muted-foreground">Zdanie</p>
-            <p className="text-lg font-medium text-foreground">{item.analysis.originalText}</p>
+            <p className="text-lg font-medium text-foreground" data-testid="saved-item-original-text">
+              {item.analysis.originalText}
+            </p>
           </div>
           <Button
             type="button"
@@ -58,13 +61,16 @@ function SavedItemCard({ item, onDelete }: SavedItemCardProps) {
             onClick={handleDelete}
             aria-label="Usuń zapisane zdanie"
             className="text-muted-foreground hover:text-destructive"
+            data-testid="saved-item-delete-button"
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase text-muted-foreground">Tłumaczenie</p>
-          <p className="text-sm text-foreground">{item.analysis.translation ?? "Brak tłumaczenia"}</p>
+          <p className="text-sm text-foreground" data-testid="saved-item-translation-text">
+            {item.analysis.translation ?? "Brak tłumaczenia"}
+          </p>
         </div>
       </CardContent>
       <CardFooter className="justify-between text-xs text-muted-foreground">

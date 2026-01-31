@@ -13,7 +13,7 @@ interface SavedAnalysisViewProps {
 
 function SavedAnalysisView({ analysis, onDelete, onCopy, isDeleting }: SavedAnalysisViewProps) {
   return (
-    <Card data-feature="saved-analysis-view" data-analysis-id={analysis.id}>
+    <Card data-feature="saved-analysis-view" data-analysis-id={analysis.id} data-testid="saved-analysis-view">
       <CardHeader>
         <CardTitle>Wyniki analizy</CardTitle>
       </CardHeader>

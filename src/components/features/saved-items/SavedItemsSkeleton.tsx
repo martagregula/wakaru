@@ -5,7 +5,7 @@ const SKELETON_COUNT = 6;
 
 function SavedItemsSkeleton() {
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-4" data-testid="saved-items-skeleton">
       {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
         <Card key={`saved-item-skeleton-${index}`}>
           <CardContent className="space-y-4">

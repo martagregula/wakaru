@@ -14,8 +14,8 @@ interface SavedItemsListProps {
 
 function SavedItemsList({ items, isLoadingMore, hasMore, onLoadMore, onDelete }: SavedItemsListProps) {
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4" aria-live="polite">
+    <div className="space-y-6" data-testid="saved-items-list">
+      <div className="grid gap-4" aria-live="polite" data-testid="saved-items-grid">
         {items.map((item) => (
           <SavedItemCard key={item.savedItemId} item={item} onDelete={onDelete} />
         ))}

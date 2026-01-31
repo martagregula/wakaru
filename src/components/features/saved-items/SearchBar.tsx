@@ -41,6 +41,7 @@ function SearchBar({ onSearch, placeholder = "Szukaj w zapisanych zdaniach" }: S
         onChange={(event) => setValue(event.target.value)}
         placeholder={placeholder}
         className="pl-9"
+        data-testid="saved-items-search-input"
       />
     </div>
   );
