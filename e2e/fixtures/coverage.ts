@@ -9,10 +9,10 @@ const coverageDir = process.env.E2E_COVERAGE_DIR
   : path.resolve(process.cwd(), "coverage/e2e");
 
 export const test = base.extend({
-  page: async ({ page }, use, testInfo) => {
+  page: async ({ page }, runFixture, testInfo) => {
     const browserType = page.context().browser()?.browserType().name();
     if (browserType !== "chromium") {
-      await use(page);
+      await runFixture(page);
       return;
     }
 
@@ -20,7 +20,7 @@ export const test = base.extend({
     await page.coverage.startCSSCoverage();
 
     try {
-      await use(page);
+      await runFixture(page);
     } finally {
       const [jsCoverage, cssCoverage] = await Promise.all([
         page.coverage.stopJSCoverage(),

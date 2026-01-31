@@ -41,12 +41,7 @@ function LoginForm({ action, fieldErrors, formError }: LoginFormProps) {
           aria-describedby={emailError ? "login-email-error" : undefined}
         />
         {emailError ? (
-          <p
-            className="text-xs text-destructive"
-            id="login-email-error"
-            role="alert"
-            data-testid="login-email-error"
-          >
+          <p className="text-xs text-destructive" id="login-email-error" role="alert" data-testid="login-email-error">
             {emailError}
           </p>
         ) : null}
