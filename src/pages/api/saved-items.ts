@@ -39,12 +39,6 @@ const SavedItemsQuerySchema = z.object({
 /**
  * POST /api/saved-items
  * Saves analysis in the user's library.
- *
- * Manual test (requires authenticated session cookie):
- * curl -i -X POST http://localhost:3000/api/saved-items \
- *   -H "Content-Type: application/json" \
- *   -H "Cookie: <YOUR_SUPABASE_AUTH_COOKIE>" \
- *   -d '{"analysisId":"<analysis-uuid>"}'
  */
 export const POST: APIRoute = async ({ request, locals }) => {
   try {

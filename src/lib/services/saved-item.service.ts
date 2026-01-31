@@ -62,6 +62,32 @@ export class SavedItemService {
   }
 
   /**
+   * Deletes a saved item for the given user.
+   * Throws SavedItemNotFoundError when the saved item does not exist.
+   */
+  async delete(userId: string, savedItemId: string): Promise<void> {
+    const { error, count } = await this.supabase
+      .from("user_saved_items")
+      .delete({ count: "exact" })
+      .eq("id", savedItemId)
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error("Error deleting saved item:", error);
+      throw new Error("Failed to delete saved item");
+    }
+
+    if (count === null) {
+      console.error("Delete saved item returned no count");
+      throw new Error("Failed to delete saved item");
+    }
+
+    if (count === 0) {
+      throw new SavedItemNotFoundError("Saved item not found");
+    }
+  }
+
+  /**
    * Lists saved items for a user with pagination, sorting, and search.
    */
   async findAll(userId: string, params: SavedItemsQueryParams): Promise<PaginatedSavedItemsDTO> {

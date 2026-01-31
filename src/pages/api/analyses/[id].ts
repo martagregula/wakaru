@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import type { AnalysisDTO } from "../../types";
-import { getAnalysisById } from "../../lib/services/analysis.service";
+import type { AnalysisDTO } from "../../../types";
+import { getAnalysisById } from "../../../lib/services/analysis.service";
 
 export const prerender = false;
 
