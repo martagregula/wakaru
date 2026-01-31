@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures/coverage";
 import { Header, LoginPage, RegisterPage } from "./auth.pages";
 
 const baseURL = "http://localhost:3000";

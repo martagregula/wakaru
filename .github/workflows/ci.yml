@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+      - name: Lint
+        run: npm run lint
+
+  unit-test:
+    name: Unit tests
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
+      - name: Upload unit coverage
+        uses: actions/upload-artifact@v6
+        with:
+          name: unit-coverage
+          path: coverage
+          if-no-files-found: error
+
+  e2e-test:
+    name: E2E tests
+    needs: lint
+    runs-on: ubuntu-latest
+    environment: integration
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      E2E_USERNAME: ${{ secrets.E2E_USERNAME }}
+      E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+      E2E_COVERAGE_DIR: coverage/e2e
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run E2E tests
+        run: npm run test:e2e
+      - name: Upload E2E coverage
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-coverage
+          path: coverage/e2e
+          if-no-files-found: error
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: warn
+
+  build:
+    name: Production build
+    needs: [unit-test, e2e-test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+      - name: Build
+        run: npm run build
