@@ -14,6 +14,8 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node
         uses: ./.github/actions/setup-node
       - name: Lint
@@ -24,6 +26,8 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node
         uses: ./.github/actions/setup-node
       - name: Run unit tests with coverage
@@ -48,6 +52,8 @@ jobs:
       E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
       E2E_COVERAGE_DIR: coverage/e2e
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node
         uses: ./.github/actions/setup-node
       - name: Install Playwright browsers
@@ -75,6 +81,8 @@ jobs:
     needs: [unit-test, e2e-test]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node
         uses: ./.github/actions/setup-node
       - name: Build
