@@ -10,15 +10,19 @@ function useSavedItems() {
   const { toast } = useToast();
   const [items, setItems] = React.useState<SavedItemWithAnalysisDTO[]>([]);
   const [page, setPage] = React.useState(1);
-  const [hasMore, setHasMore] = React.useState(true);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [hasMore, setHasMore] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [isFetchingNextPage, setIsFetchingNextPage] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
+  const [fetchKey, setFetchKey] = React.useState(0);
   const previousItemsRef = React.useRef<SavedItemWithAnalysisDTO[]>([]);
-  const isLoadMorePendingRef = React.useRef(false);
+  const abortControllerRef = React.useRef<AbortController | null>(null);
 
-  const loadItems = React.useCallback(async () => {
+  React.useEffect(() => {
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     const isFirstPage = page === 1;
     if (isFirstPage) {
       setIsLoading(true);
@@ -27,51 +31,55 @@ function useSavedItems() {
     }
     setError(null);
 
-    try {
-      const data = await fetchJson<PaginatedSavedItemsDTO>("/api/saved-items", {
-        params: {
-          page,
-          pageSize: PAGE_SIZE,
-          q: searchQuery,
-          sort: "savedAt",
-          order: "desc",
-        },
+    fetchJson<PaginatedSavedItemsDTO>("/api/saved-items", {
+      params: {
+        page,
+        pageSize: PAGE_SIZE,
+        q: searchQuery,
+        sort: "savedAt",
+        order: "desc",
+      },
+      signal: abortController.signal,
+    })
+      .then((data) => {
+        // Ignore result if this request was superseded by a newer one
+        if (abortControllerRef.current !== abortController) return;
+
+        setItems((prev) => {
+          const nextItems = isFirstPage ? data.items : [...prev, ...data.items];
+          const moreAvailable = data.total > nextItems.length;
+          setHasMore(moreAvailable);
+          return nextItems;
+        });
+      })
+      .catch((err) => {
+        // Ignore errors from aborted requests
+        if (err.name === "AbortError") return;
+        if (abortControllerRef.current !== abortController) return;
+
+        if (err instanceof ApiError && err.status === 401) {
+          window.location.assign("/login");
+          return;
+        }
+        const message = err instanceof ApiError ? err.message : "Nie udało się pobrać zapisanych zdań.";
+        setError(message);
+        setHasMore(false);
+      })
+      .finally(() => {
+        if (abortControllerRef.current !== abortController) return;
+        setIsLoading(false);
+        setIsFetchingNextPage(false);
       });
 
-      let nextLength = 0;
-      setItems((prev) => {
-        const nextItems = isFirstPage ? data.items : [...prev, ...data.items];
-        nextLength = nextItems.length;
-        return nextItems;
-      });
-      setHasMore(data.total > nextLength);
-    } catch (error) {
-      if (error instanceof ApiError && error.status === 401) {
-        window.location.assign("/login");
-        return;
-      }
-      const message = error instanceof ApiError ? error.message : "Nie udało się pobrać zapisanych zdań.";
-      setError(message);
-      setHasMore(false);
-    } finally {
-      setIsLoading(false);
-      setIsFetchingNextPage(false);
-      isLoadMorePendingRef.current = false;
-    }
-  }, [page, searchQuery]);
-
-  React.useEffect(() => {
-    void loadItems();
-  }, [loadItems]);
+    return () => {
+      abortController.abort();
+    };
+  }, [page, searchQuery, fetchKey]);
 
   const loadMore = React.useCallback(() => {
     if (isLoading || isFetchingNextPage || !hasMore || error) {
       return;
     }
-    if (isLoadMorePendingRef.current) {
-      return;
-    }
-    isLoadMorePendingRef.current = true;
     setPage((prev) => prev + 1);
   }, [error, hasMore, isFetchingNextPage, isLoading]);
 
@@ -79,17 +87,16 @@ function useSavedItems() {
     setSearchQuery(query);
     setItems([]);
     setPage(1);
-    setHasMore(true);
+    setHasMore(false);
     setError(null);
-    isLoadMorePendingRef.current = false;
   }, []);
 
   const retry = React.useCallback(() => {
     setItems([]);
     setPage(1);
-    setHasMore(true);
+    setHasMore(false);
     setError(null);
-    isLoadMorePendingRef.current = false;
+    setFetchKey((k) => k + 1);
   }, []);
 
   const deleteItem = React.useCallback(

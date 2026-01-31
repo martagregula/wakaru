@@ -11,8 +11,14 @@ interface SearchBarProps {
 function SearchBar({ onSearch, placeholder = "Szukaj w zapisanych zdaniach" }: SearchBarProps) {
   const inputId = React.useId();
   const [value, setValue] = React.useState("");
+  const hasMountedRef = React.useRef(false);
 
   React.useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+
     const debounceId = window.setTimeout(() => {
       onSearch(value.trim());
     }, 400);
