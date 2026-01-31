@@ -60,7 +60,7 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
 *   Kryteria akceptacji:
     *   Formularz rejestracji przyjmuje email i hasło.
     *   System waliduje poprawność formatu email.
-    *   Po udanej rejestracji użytkownik musi potwierdzić email.
+    *   Po udanej rejestracji użytkownik jest automatycznie zalogowany.
     *   Konto użytkownika jest tworzone w bazie Supabase.
 
 ### US-003: Logowanie do systemu

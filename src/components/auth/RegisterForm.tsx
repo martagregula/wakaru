@@ -3,9 +3,28 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-function RegisterForm() {
+interface RegisterFormProps {
+  action: string;
+  fieldErrors?: Record<string, string[]>;
+  formError?: string | null;
+}
+
+function RegisterForm({ action, fieldErrors, formError }: RegisterFormProps) {
+  const emailError = fieldErrors?.email?.join(", ");
+  const passwordError = fieldErrors?.password?.join(", ");
+  const passwordConfirmError = fieldErrors?.passwordConfirm?.join(", ");
+
   return (
-    <form className="space-y-6" method="post" action="#">
+    <form className="space-y-6" method="post" action={action} noValidate>
+      {formError ? (
+        <div
+          className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+          role="alert"
+        >
+          {formError}
+        </div>
+      ) : null}
+
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground" htmlFor="register-email">
           Adres email
@@ -17,7 +36,14 @@ function RegisterForm() {
           autoComplete="email"
           placeholder="np. akiko@example.com"
           required
+          aria-invalid={Boolean(emailError)}
+          aria-describedby={emailError ? "register-email-error" : undefined}
         />
+        {emailError ? (
+          <p className="text-xs text-destructive" id="register-email-error" role="alert">
+            {emailError}
+          </p>
+        ) : null}
       </div>
 
       <div className="space-y-2">
@@ -32,7 +58,14 @@ function RegisterForm() {
           placeholder="Minimum 6 znaków"
           required
           minLength={6}
+          aria-invalid={Boolean(passwordError)}
+          aria-describedby={passwordError ? "register-password-error" : undefined}
         />
+        {passwordError ? (
+          <p className="text-xs text-destructive" id="register-password-error" role="alert">
+            {passwordError}
+          </p>
+        ) : null}
         <p className="text-xs text-muted-foreground">
           Hasło powinno mieć co najmniej 6 znaków i zawierać litery lub cyfry.
         </p>
@@ -50,7 +83,14 @@ function RegisterForm() {
           placeholder="Powtórz hasło"
           required
           minLength={6}
+          aria-invalid={Boolean(passwordConfirmError)}
+          aria-describedby={passwordConfirmError ? "register-password-confirm-error" : undefined}
         />
+        {passwordConfirmError ? (
+          <p className="text-xs text-destructive" id="register-password-confirm-error" role="alert">
+            {passwordConfirmError}
+          </p>
+        ) : null}
       </div>
 
       <Button className="w-full" type="submit">

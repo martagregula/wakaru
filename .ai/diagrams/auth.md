@@ -2,9 +2,8 @@
 
 ## 1. Przepływy autentykacji (PRD, auth-spec)
 
-- **Rejestracja (US-002):** Użytkownik wypełnia formularz (email, hasło). Walidacja Zod po stronie klienta. Akcja `auth.register` wywołuje `supabase.auth.signUp()`. Po sukcesie – komunikat o konieczności potwierdzenia emaila. Link w emailu prowadzi do `/auth/callback`, gdzie kod jest wymieniany na sesję (ustawienie ciasteczek).
+- **Rejestracja (US-002):** Użytkownik wypełnia formularz (email, hasło). Walidacja Zod po stronie klienta. Akcja `auth.register` wywołuje `supabase.auth.signUp()`. Po sukcesie użytkownik jest automatycznie zalogowany i przekierowany.
 - **Logowanie (US-003):** Formularz (email, hasło) → akcja `auth.login` → `signInWithPassword()`. Serwer ustawia ciasteczka sesyjne (access_token, refresh_token). Sukces: przekierowanie na stronę główną. Błąd: komunikat (np. „Nieprawidłowy adres email lub hasło”).
-- **Callback potwierdzenia email:** Przeglądarka trafia na `/auth/callback` z parametrem `code`. Endpoint wymienia kod na sesję z Supabase Auth i ustawia ciasteczka; przekierowanie np. na stronę główną.
 - **Weryfikacja sesji przy każdym żądaniu:** Middleware tworzy klienta Supabase z ciasteczek requestu, wywołuje `getUser()` (weryfikacja JWT). Użytkownik trafia do `context.locals.user`.
 - **Odświeżanie tokenu:** Gdy token jest wygasły, middleware próbuje odświeżyć sesję i zapisuje zaktualizowane ciasteczka w odpowiedzi.
 - **Wylogowanie:** Akcja `auth.logout` → `signOut()` oraz usunięcie ciasteczek sesji.
@@ -13,8 +12,8 @@
 
 - **Przeglądarka:** Wyświetla strony logowania/rejestracji, wysyła formularze do Astro Actions, wysyła żądania z ciasteczkami, obsługuje przekierowania.
 - **Middleware (Astro):** Czyta ciasteczka, tworzy klienta Supabase (createServerClient), wywołuje `getUser()`, ewentualnie odświeża token i ustawia `locals.user`; opcjonalnie przekierowuje niezalogowanych na `/login` dla chronionych tras.
-- **Astro API (Actions + strony/endpointy):** Actions `auth.login`, `auth.register`, `auth.logout` wywołują Supabase Auth i ustawiają/usuwają ciasteczka. Endpoint `/auth/callback` wymienia kod na sesję. Strony i API używają `locals.user` lub `locals.supabase.auth.getUser()`.
-- **Supabase Auth:** `signUp()`, `signInWithPassword()`, `signOut()`, wymiana kodu na sesję, weryfikacja JWT i odświeżanie tokenów.
+- **Astro API (Actions + strony/endpointy):** Actions `auth.login`, `auth.register`, `auth.logout` wywołują Supabase Auth i ustawiają/usuwają ciasteczka. Strony i API używają `locals.user` lub `locals.supabase.auth.getUser()`.
+- **Supabase Auth:** `signUp()`, `signInWithPassword()`, `signOut()`, weryfikacja JWT i odświeżanie tokenów.
 
 ## 3. Procesy weryfikacji i odświeżania tokenów
 
@@ -24,7 +23,7 @@
 
 ## 4. Krótki opis kroków (wybrane)
 
-- Rejestracja: Formularz → Action → signUp → komunikat / email z linkiem → callback wymienia code → ciasteczka.
+- Rejestracja: Formularz → Action → signUp → ciasteczka sesji → redirect.
 - Logowanie: Formularz → Action → signInWithPassword → ustawienie ciasteczek → redirect.
 - Żądanie chronione: Request z ciasteczkami → Middleware (getUser / refresh) → locals.user → strona/API korzysta z user lub zwraca 401.
 - Wylogowanie: Wywołanie auth.logout → signOut + usunięcie ciasteczek.
@@ -46,19 +45,7 @@ sequenceDiagram
   activate SupabaseAuth
   SupabaseAuth-->>AstroAPI: Użytkownik utworzony
   deactivate SupabaseAuth
-  AstroAPI-->>Przegladarka: Komunikat: potwierdź email
-  deactivate AstroAPI
-  deactivate Przegladarka
-
-  Note over Przegladarka,SupabaseAuth: Callback potwierdzenia email
-  activate Przegladarka
-  Przegladarka->>AstroAPI: GET z kodem weryfikacyjnym
-  activate AstroAPI
-  AstroAPI->>SupabaseAuth: Wymiana kodu na sesję
-  activate SupabaseAuth
-  SupabaseAuth-->>AstroAPI: access_token, refresh_token
-  deactivate SupabaseAuth
-  AstroAPI-->>Przegladarka: Ustaw ciasteczka, przekieruj
+  AstroAPI-->>Przegladarka: Ciasteczka sesji, przekieruj
   deactivate AstroAPI
   deactivate Przegladarka
 

@@ -18,7 +18,6 @@ Wszystkie strony autentykacji będą renderowane po stronie serwera (SSR), aby z
 *   **`/src/pages/register.astro`**: Strona rejestracji.
     *   Zawiera komponent React `RegisterForm`.
     *   Przekierowuje, jeśli użytkownik jest zalogowany.
-*   **`/src/pages/auth/callback.ts`**: Endpoint API (nie strona UI) obsługujący przekierowania z linków emailowych (np. potwierdzenie rejestracji) w celu wymiany kodu `code` na sesję.
 
 ### 1.2. Komponenty (React & Shadcn/ui)
 Logika formularzy i interakcja z użytkownikiem (walidacja w czasie rzeczywistym) zostanie obsłużona przez komponenty React ("islands").
@@ -55,7 +54,7 @@ Zdefiniowanie przestrzeni nazw `auth` z następującymi akcjami:
 1.  **`auth.register`**:
     *   Input: `email`, `password`.
     *   Logika: Wywołanie `supabase.auth.signUp()`.
-    *   Wynik: Utworzenie użytkownika. W przypadku sukcesu komunikat o konieczności potwierdzenia emaila.
+    *   Wynik: Utworzenie użytkownika i natychmiastowe zalogowanie (sesja ustawiona w ciasteczkach).
 2.  **`auth.login`**:
     *   Input: `email`, `password`.
     *   Logika: Wywołanie `supabase.auth.signInWithPassword()`.
@@ -101,7 +100,6 @@ Należy rozdzielić logikę tworzenia klienta na:
 *   **Obsługa Błędów**: Mapowanie kodów błędów Supabase na komunikaty przyjazne użytkownikowi (PL):
     *   `invalid_credentials` -> "Nieprawidłowy adres email lub hasło."
     *   `user_already_exists` -> "Użytkownik o takim adresie email już istnieje."
-
 ---
 
 ## Podsumowanie Implementacji

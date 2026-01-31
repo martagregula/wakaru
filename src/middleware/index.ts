@@ -1,20 +1,32 @@
 import { defineMiddleware } from "astro:middleware";
-import { createSupabaseServerClient } from "../db/supabase.client";
+import { createSupabaseServerInstance } from "../db/supabase.client";
 
 /**
- * Astro middleware that initializes Supabase client for each request
- * Makes the client available via context.locals.supabase in API routes
+ * Astro middleware that initializes Supabase client for each request.
+ * Uses SSR cookies handling to keep sessions in sync.
  */
-export const onRequest = defineMiddleware((context, next) => {
-  const supabaseUrl = import.meta.env.SUPABASE_URL;
-  const supabaseKey = import.meta.env.SUPABASE_KEY;
+export const onRequest = defineMiddleware(async (context, next) => {
+  const supabase = createSupabaseServerInstance({
+    cookies: context.cookies,
+    headers: context.request.headers,
+  });
 
-  // Get session tokens from cookies (if they exist)
-  const accessToken = context.cookies.get("sb-access-token")?.value;
-  const refreshToken = context.cookies.get("sb-refresh-token")?.value;
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  // Create Supabase client with session
-  context.locals.supabase = createSupabaseServerClient(supabaseUrl, supabaseKey, accessToken, refreshToken);
+  if (error) {
+    console.error("Supabase auth error:", error.message);
+  }
+
+  context.locals.supabase = supabase;
+  context.locals.user = user
+    ? {
+        id: user.id,
+        email: user.email || "",
+      }
+    : null;
 
   return next();
 });

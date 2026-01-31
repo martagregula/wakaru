@@ -2,9 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { AnalysisFeature } from "../components/features/analysis/AnalysisFeature";
 
-const { data: authData } = await Astro.locals.supabase.auth.getUser();
-
-const isLoggedIn = Boolean(authData?.user);
+const isLoggedIn = Boolean(Astro.locals.user);
 ---
 
 <Layout title="Wakaru">

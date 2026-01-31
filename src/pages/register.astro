@@ -1,11 +1,27 @@
 ---
+export const prerender = false;
+
+import { actions, isInputError } from "astro:actions";
 import Layout from "../layouts/Layout.astro";
 import { AuthLayout } from "../components/auth/AuthLayout";
 import { RegisterForm } from "../components/auth/RegisterForm";
+
+if (Astro.locals.user) {
+  return Astro.redirect("/");
+}
+
+const result = Astro.getActionResult(actions.auth.register);
+
+if (result && !result.error) {
+  return Astro.redirect("/");
+}
+
+const fieldErrors = isInputError(result?.error) ? result.error.fields : {};
+const formError = result?.error && !isInputError(result.error) ? result.error.message : null;
 ---
 
 <Layout title="Zarejestruj się | Wakaru">
   <AuthLayout title="Utwórz konto" description="Dołącz do Wakaru i zapisuj swoje analizy.">
-    <RegisterForm />
+    <RegisterForm action={actions.auth.register} fieldErrors={fieldErrors} formError={formError} />
   </AuthLayout>
 </Layout>

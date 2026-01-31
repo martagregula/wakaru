@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { actions } from "astro:actions";
 import { Toaster } from "../components/ui/toaster";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { title = "10x Astro Starter" } = Astro.props;
+const user = Astro.locals.user;
 ---
 
 <!doctype html>
@@ -19,6 +21,42 @@ const { title = "10x Astro Starter" } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <header class="border-b border-border/40 bg-background/80">
+      <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
+        <a class="text-lg font-semibold text-foreground" href="/"> Wakaru </a>
+        <nav class="flex items-center gap-3 text-sm">
+          {
+            user ? (
+              <>
+                <a class="text-foreground hover:text-primary" href="/sentences">
+                  Moje Zdania
+                </a>
+                <form method="post" action={actions.auth.logout}>
+                  <button
+                    class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
+                    type="submit"
+                  >
+                    Wyloguj
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <a class="text-foreground hover:text-primary" href="/login">
+                  Zaloguj
+                </a>
+                <a
+                  class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
+                  href="/register"
+                >
+                  Zarejestruj
+                </a>
+              </>
+            )
+          }
+        </nav>
+      </div>
+    </header>
     <slot />
     <Toaster client:load />
   </body>
