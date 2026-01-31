@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { AuthLayout } from "../components/auth/AuthLayout";
+import { RegisterForm } from "../components/auth/RegisterForm";
+---
+
+<Layout title="Zarejestruj się | Wakaru">
+  <AuthLayout title="Utwórz konto" description="Dołącz do Wakaru i zapisuj swoje analizy.">
+    <RegisterForm />
+  </AuthLayout>
+</Layout>
