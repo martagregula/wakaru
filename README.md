@@ -15,6 +15,12 @@ Wakaru is an AI-powered web application designed to help beginner and intermedia
 - [Supabase](https://supabase.com/) - Backend-as-a-Service (PostgreSQL, Auth).
 - [OpenRouter](https://openrouter.ai/) - AI model aggregation (using gpt-4o-mini).
 
+**Testing:**
+- [Vitest](https://vitest.dev/) - Unit and integration testing framework.
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - React component testing.
+- [Playwright](https://playwright.dev/) - End-to-End (E2E) testing.
+- [MSW](https://mswjs.io/) - API mocking.
+
 ## Getting Started Locally
 
 Follow these steps to set up the project locally.
