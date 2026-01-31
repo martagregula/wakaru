@@ -7,8 +7,10 @@ import { SavedItemsSkeleton } from "@/components/features/saved-items/SavedItems
 import { useSavedItems } from "@/components/hooks/useSavedItems";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 
 function SavedItemsView() {
+  const { toast } = useToast();
   const {
     items,
     hasMore,
@@ -24,6 +26,17 @@ function SavedItemsView() {
 
   const isInitialLoading = isLoading && items.length === 0;
   const showEmptyState = !isInitialLoading && !error && items.length === 0;
+
+  React.useEffect(() => {
+    const flag = window.localStorage.getItem("savedItemsToast");
+    if (flag === "deleted") {
+      window.localStorage.removeItem("savedItemsToast");
+      toast({
+        title: "Usunięto",
+        description: "Analiza została usunięta z biblioteki.",
+      });
+    }
+  }, [toast]);
 
   const handleSearch = React.useCallback(
     (query: string) => {

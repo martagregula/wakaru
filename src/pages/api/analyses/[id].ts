@@ -5,18 +5,17 @@ import { getAnalysisById } from "../../../lib/services/analysis.service";
 
 export const prerender = false;
 
-const QuerySchema = z.object({
+const ParamsSchema = z.object({
   id: z.string().uuid("Invalid analysis id"),
 });
 
 /**
- * GET /api/analysis?id=<uuid>
+ * GET /api/analyses/:id
  * Returns analysis details if the user has saved the item
  */
-export const GET: APIRoute = async ({ request, locals }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
-    const url = new URL(request.url);
-    const validation = QuerySchema.safeParse({ id: url.searchParams.get("id") ?? "" });
+    const validation = ParamsSchema.safeParse({ id: params.id ?? "" });
 
     if (!validation.success) {
       const firstError = validation.error.errors[0];
@@ -49,8 +48,8 @@ export const GET: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    const analysis = await getAnalysisById(locals.supabase, analysisId, authData.user.id);
-    if (!analysis) {
+    const result = await getAnalysisById(locals.supabase, analysisId, authData.user.id);
+    if (!result) {
       return new Response(
         JSON.stringify({
           error: "Not Found",
@@ -63,7 +62,10 @@ export const GET: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    const response: { analysis: AnalysisDTO } = { analysis };
+    const response: { analysis: AnalysisDTO; savedItemId: string } = {
+      analysis: result.analysis,
+      savedItemId: result.savedItemId,
+    };
     return new Response(JSON.stringify(response), {
       status: 200,
       headers: { "Content-Type": "application/json" },

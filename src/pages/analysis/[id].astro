@@ -1,0 +1,20 @@
+---
+export const prerender = false;
+
+import Layout from "../../layouts/Layout.astro";
+import { SavedAnalysisFeature } from "../../components/features/analysis/SavedAnalysisFeature";
+
+const { id } = Astro.params;
+
+if (!Astro.locals.user) {
+  return Astro.redirect("/login");
+}
+
+if (!id) {
+  return Astro.redirect("/saved");
+}
+---
+
+<Layout title="Szczegóły analizy | Wakaru">
+  <SavedAnalysisFeature client:load analysisId={id} />
+</Layout>

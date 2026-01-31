@@ -111,6 +111,14 @@ Uczniowie języka japońskiego często napotykają "ścianę", gdy próbują prz
     *   Pole wyszukiwania filtruje listę "Moje Zdania" w czasie rzeczywistym lub po zatwierdzeniu.
     *   Wyszukiwanie obejmuje treść japońską oraz angielskie tłumaczenie.
 
+### US-011: Podgląd zapisanej analizy
+*   Tytuł: Podgląd szczegółów zapisanej analizy
+*   Opis: Jako użytkownik chcę zobaczyć szczegóły zapisanej analizy
+*   Kryteria akceptacji:
+    *   Pokazany po kliknięciu w wybraną analizę na liście zapisanych analiz użytkownika
+    *   Wszystkie informacje takie jak po wygenerowaniu analizy, podobny wygląd (reużycie komponentów)
+
+
 ## 6. Metryki sukcesu
 
 ### 6.1. Jakość techniczna

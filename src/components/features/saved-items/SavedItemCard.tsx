@@ -15,7 +15,7 @@ function SavedItemCard({ item, onDelete }: SavedItemCardProps) {
   const absoluteSavedAt = React.useMemo(() => formatAbsoluteTime(item.savedAt), [item.savedAt]);
 
   const handleNavigate = React.useCallback(() => {
-    window.location.assign(`/analyses/${item.analysis.id}`);
+    window.location.assign(`/analysis/${item.analysis.id}`);
   }, [item.analysis.id]);
 
   const handleKeyDown = React.useCallback(

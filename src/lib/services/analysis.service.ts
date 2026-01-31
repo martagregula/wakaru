@@ -42,7 +42,7 @@ export async function getAnalysisById(
   supabase: TypedSupabaseClient,
   analysisId: string,
   userId?: string
-): Promise<AnalysisDTO | null> {
+): Promise<{ analysis: AnalysisDTO; savedItemId: string } | null> {
   if (!userId) {
     return null;
   }
@@ -84,7 +84,10 @@ export async function getAnalysisById(
     return null;
   }
 
-  return mapDatabaseRowToDTO(analysis);
+  return {
+    analysis: mapDatabaseRowToDTO(analysis),
+    savedItemId: savedItem.id,
+  };
 }
 
 /**
