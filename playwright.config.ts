@@ -2,7 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import path from "path";
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env.test") });
+if (!process.env.CI) {
+  dotenv.config({ path: path.resolve(process.cwd(), ".env.test") });
+}
 
 export default defineConfig({
   testDir: "./e2e",
