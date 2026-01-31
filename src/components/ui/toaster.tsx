@@ -7,10 +7,10 @@ function Toaster() {
   return (
     <ToastProvider>
       {toasts.map(({ id, title, description, action, ...props }) => (
-        <Toast key={id} {...props}>
+        <Toast key={id} data-testid="toast" {...props}>
           <div className="grid gap-1">
-            {title ? <ToastTitle>{title}</ToastTitle> : null}
-            {description ? <ToastDescription>{description}</ToastDescription> : null}
+            {title ? <ToastTitle data-testid="toast-title">{title}</ToastTitle> : null}
+            {description ? <ToastDescription data-testid="toast-description">{description}</ToastDescription> : null}
           </div>
           {action}
           <ToastClose />

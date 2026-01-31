@@ -15,7 +15,7 @@ interface AnalysisResultProps {
 
 function AnalysisResult({ analysis, onSave, onCopyTranslation, isSaving, isSaved, isLoggedIn }: AnalysisResultProps) {
   return (
-    <Card data-feature="analysis-result" data-analysis-id={analysis.id}>
+    <Card data-feature="analysis-result" data-analysis-id={analysis.id} data-testid="analysis-result">
       <CardHeader>
         <CardTitle>Wyniki analizy</CardTitle>
       </CardHeader>

@@ -18,6 +18,7 @@ function TokenCard({ token }: TokenCardProps) {
             "flex min-h-[56px] items-center justify-center rounded-lg border px-3 py-2 text-sm font-medium shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             getPosColor(token.pos)
           )}
+          data-testid="analysis-token-card"
         >
           {token.surface}
         </button>

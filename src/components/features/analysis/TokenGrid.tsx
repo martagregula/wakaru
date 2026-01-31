@@ -11,6 +11,7 @@ function TokenGrid({ tokens }: TokenGridProps) {
       className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3"
       data-feature="token-grid"
       data-token-count={tokens.length}
+      data-testid="analysis-token-grid"
     >
       {tokens.map((token, index) => (
         <TokenCard key={`${token.surface}-${index}`} token={token} />

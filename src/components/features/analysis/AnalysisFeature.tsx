@@ -24,6 +24,11 @@ function AnalysisFeature({ isLoggedIn }: AnalysisFeatureProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [validationError, setValidationError] = React.useState<string | null>(null);
   const [saveStatus, setSaveStatus] = React.useState<SaveStatus>("idle");
+  const [isHydrated, setIsHydrated] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const validateInput = React.useCallback((value: string) => {
     const trimmed = value.trim();
@@ -240,6 +245,8 @@ function AnalysisFeature({ isLoggedIn }: AnalysisFeatureProps) {
       className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10"
       data-feature="analysis"
       data-logged-in={isLoggedIn}
+      data-hydrated={isHydrated ? "true" : "false"}
+      data-testid="analysis-feature"
     >
       <Card>
         <CardHeader>

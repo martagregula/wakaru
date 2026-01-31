@@ -16,7 +16,7 @@ function assertE2ECredentials() {
 }
 
 test.describe("Auth and account management", () => {
-  test("TC-05 Rejestracja nowego użytkownika -> auto-login", async ({ page }) => {
+  test("TC-04 Rejestracja nowego użytkownika -> auto-login", async ({ page }) => {
     const registerPage = new RegisterPage(page);
     const header = new Header(page);
     const uniqueEmail = `mgregula+wakaru-${Date.now()}@gmail.com`;
@@ -28,7 +28,7 @@ test.describe("Auth and account management", () => {
     await expect(header.savedLink).toBeVisible();
   });
 
-  test("TC-06 Rejestracja na istniejący email -> błąd walidacji", async ({ page }) => {
+  test("TC-05 Rejestracja na istniejący email -> błąd walidacji", async ({ page }) => {
     assertE2ECredentials();
     const registerPage = new RegisterPage(page);
 
@@ -39,7 +39,7 @@ test.describe("Auth and account management", () => {
     await expect(registerPage.formError).toContainText("już istnieje");
   });
 
-  test("TC-07 Logowanie i wylogowanie -> poprawna sesja", async ({ page }) => {
+  test("TC-06 Logowanie i wylogowanie -> poprawna sesja", async ({ page }) => {
     assertE2ECredentials();
     const loginPage = new LoginPage(page);
     const header = new Header(page);
@@ -52,7 +52,7 @@ test.describe("Auth and account management", () => {
     await expect(loginPage.form).toBeVisible();
   });
 
-  test("TC-08 Dostęp do /api/saved-items bez logowania -> 401/403", async ({ request }) => {
+  test("TC-07 Dostęp do /api/saved-items bez logowania -> 401/403", async ({ request }) => {
     const response = await request.get("/api/saved-items");
 
     expect([401, 403]).toContain(response.status());

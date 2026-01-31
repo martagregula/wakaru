@@ -49,26 +49,39 @@ function AnalysisInput({
         className="min-h-[140px] resize-y"
         aria-invalid={Boolean(error) || isOverLimit}
         aria-describedby={helperId}
+        data-testid="analysis-input-textarea"
       />
       <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span className={cn("transition-colors", isOverLimit ? "text-destructive" : "text-muted-foreground")}>
+        <span
+          className={cn("transition-colors", isOverLimit ? "text-destructive" : "text-muted-foreground")}
+          data-testid="analysis-input-counter"
+        >
           {length}/{MAX_LENGTH}
         </span>
-        <Button type="button" onClick={onSubmit} disabled={disabled || isLoading || isOverLimit} aria-busy={isLoading}>
+        <Button
+          type="button"
+          onClick={onSubmit}
+          disabled={disabled || isLoading || isOverLimit}
+          aria-busy={isLoading}
+          data-testid="analysis-submit-button"
+        >
           {isLoading ? "Analizowanie..." : "Analizuj"}
         </Button>
       </div>
       {error ? (
-        <p id={helperId} className="text-destructive text-xs" role="alert">
+        <p id={helperId} className="text-destructive text-xs" role="alert" data-testid="analysis-input-error">
           {error}
         </p>
       ) : helperText ? (
-        <p id={helperId} className="text-muted-foreground text-xs">
+        <p id={helperId} className="text-muted-foreground text-xs" data-testid="analysis-input-helper">
           {helperText}
         </p>
       ) : null}
       {noticeText ? (
-        <div className="rounded-lg border border-dashed bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+        <div
+          className="rounded-lg border border-dashed bg-muted/30 px-3 py-2 text-xs text-muted-foreground"
+          data-testid="analysis-input-notice"
+        >
           {noticeText}
         </div>
       ) : null}

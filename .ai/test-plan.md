@@ -35,18 +35,18 @@ Cele szczegółowe:
 - **TC-01:** Użytkownik wysyła poprawny tekst japoński -> Otrzymuje kafelki z tokenami i tłumaczenie.
 - **TC-02:** Użytkownik wysyła tekst nie-japoński (np. angielski) -> System zwraca błąd walidacji.
 - **TC-03:** Przekroczenie limitu znaków (280) -> Blokada wysyłki lub błąd API.
-- **TC-04:** Błąd zewnętrznego API (OpenRouter down) -> System wyświetla przyjazny komunikat błędu.
 
 ### 4.2. Autentykacja i Zarządzanie Kontem
-- **TC-05:** Rejestracja nowego użytkownika (poprawne dane) -> Utworzenie konta w Supabase i auto-login.
-- **TC-06:** Próba rejestracji na istniejący email -> Błąd walidacji.
-- **TC-07:** Logowanie i wylogowanie -> Poprawne zarządzanie sesją i ciasteczkami.
-- **TC-08:** Dostęp do chronionych zasobów (`/api/saved-items`) bez logowania -> Odmowa dostępu (401/403).
+- **TC-04:** Rejestracja nowego użytkownika (poprawne dane) -> Utworzenie konta w Supabase i auto-login.
+- **TC-05:** Próba rejestracji na istniejący email -> Błąd walidacji.
+- **TC-06:** Logowanie i wylogowanie -> Poprawne zarządzanie sesją i ciasteczkami.
+- **TC-07:** Dostęp do chronionych zasobów (`/api/saved-items`) bez logowania -> Odmowa dostępu (401/403).
 
 ### 4.3. Zarządzanie Zbiorem (Library)
-- **TC-09:** Zapisanie analizy -> Analiza pojawia się w "Moje Zdania".
-- **TC-10:** Próba odczytu cudzych analiz -> Blokada przez RLS.
-- **TC-11:** Wyszukiwanie w zapisanych zdaniach -> Filtrowanie listy po frazie japońskiej lub angielskiej.
+- **TC-08:** Zapisanie analizy -> Analiza pojawia się w "Moje Zdania".
+- **TC-09:** Próba odczytu cudzych analiz -> Blokada przez RLS.
+- **TC-10:** Wyszukiwanie w zapisanych zdaniach -> Filtrowanie listy po frazie japońskiej lub angielskiej.
+- **TC-11:** Kliknięcie na zapisaną analizę -> Widok szczegółów analizy
 
 ## 5. Środowisko testowe
 
