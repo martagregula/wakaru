@@ -1,5 +1,12 @@
 import type { TypedSupabaseClient } from "../../db/supabase.client";
-import type { SavedItemDTO } from "../../types";
+import type {
+  AnalysisDTO,
+  AnalysisDataDTO,
+  PaginatedSavedItemsDTO,
+  SavedItemDTO,
+  SavedItemWithAnalysisDTO,
+  SavedItemsQueryParams,
+} from "../../types";
 import type { Database } from "../../db/database.types";
 
 export class SavedItemConflictError extends Error {
@@ -55,6 +62,53 @@ export class SavedItemService {
   }
 
   /**
+   * Lists saved items for a user with pagination, sorting, and search.
+   */
+  async findAll(userId: string, params: SavedItemsQueryParams): Promise<PaginatedSavedItemsDTO> {
+    const { q, page = 1, pageSize = 20, sort = "savedAt", order = "desc" } = params;
+
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    let query = this.supabase
+      .from("user_saved_items")
+      .select("id, saved_at, analyses!inner(id, original_text, translation, data, created_at)", { count: "exact" })
+      .eq("user_id", userId);
+
+    if (q && q.trim().length > 0) {
+      const sanitizedQuery = q.trim();
+      query = query.or(`original_text.ilike.%${sanitizedQuery}%,translation.ilike.%${sanitizedQuery}%`, {
+        foreignTable: "analyses",
+      });
+    }
+
+    if (sort === "originalText") {
+      query = query.order("original_text", {
+        foreignTable: "analyses",
+        ascending: order === "asc",
+      });
+    } else {
+      query = query.order("saved_at", { ascending: order === "asc" });
+    }
+
+    const { data, error, count } = await query.range(from, to);
+
+    if (error) {
+      console.error("Error fetching saved items:", error);
+      throw new Error("Failed to fetch saved items");
+    }
+
+    const items = (data ?? []).map(mapSavedItemWithAnalysisRowToDTO);
+
+    return {
+      items,
+      page,
+      pageSize,
+      total: count ?? 0,
+    };
+  }
+
+  /**
    * Checks whether the user already saved the analysis.
    */
   async isAnalysisSaved(userId: string, analysisId: string): Promise<boolean> {
@@ -91,11 +145,42 @@ export class SavedItemService {
   }
 }
 
+type AnalysisRowSelection = Pick<
+  Database["public"]["Tables"]["analyses"]["Row"],
+  "id" | "original_text" | "translation" | "data" | "created_at"
+>;
+
+type SavedItemWithAnalysisRow = Pick<Database["public"]["Tables"]["user_saved_items"]["Row"], "id" | "saved_at"> & {
+  analyses: AnalysisRowSelection | null;
+};
+
 function mapDatabaseRowToDTO(row: Database["public"]["Tables"]["user_saved_items"]["Row"]): SavedItemDTO {
   return {
     id: row.id,
     analysisId: row.analysis_id,
     userId: row.user_id,
     savedAt: row.saved_at,
+  };
+}
+
+function mapAnalysisRowToDTO(row: AnalysisRowSelection): AnalysisDTO {
+  return {
+    id: row.id,
+    originalText: row.original_text,
+    translation: row.translation,
+    data: row.data as unknown as AnalysisDataDTO,
+    createdAt: row.created_at,
+  };
+}
+
+function mapSavedItemWithAnalysisRowToDTO(row: SavedItemWithAnalysisRow): SavedItemWithAnalysisDTO {
+  if (!row.analyses) {
+    throw new Error("Missing analysis data for saved item");
+  }
+
+  return {
+    savedItemId: row.id,
+    savedAt: row.saved_at,
+    analysis: mapAnalysisRowToDTO(row.analyses),
   };
 }
