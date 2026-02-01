@@ -83,6 +83,8 @@ function AnalysisFeature({ isLoggedIn }: AnalysisFeatureProps) {
       return;
     }
 
+    setAnalysis(null);
+    setSaveStatus("idle");
     setIsLoading(true);
     setValidationError(null);
 
