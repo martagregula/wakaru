@@ -21,21 +21,21 @@ function AnalysisActions({
     <div className="flex flex-wrap items-center justify-between gap-3" data-feature="analysis-actions">
       <Button
         type="button"
-        onClick={onSave}
-        disabled={!isLoggedIn || isSaving || isSaved}
-        aria-busy={isSaving}
-        data-testid="analysis-save-button"
-      >
-        {isSaved ? "Zapisano" : isSaving ? "Zapisywanie..." : "Zapisz"}
-      </Button>
-      <Button
-        type="button"
         variant="outline"
         onClick={onCopyTranslation}
         disabled={!translation}
         data-testid="analysis-copy-button"
       >
         Kopiuj tłumaczenie
+      </Button>
+      <Button
+        type="button"
+        onClick={onSave}
+        disabled={!isLoggedIn || isSaving || isSaved}
+        aria-busy={isSaving}
+        data-testid="analysis-save-button"
+      >
+        {isSaved ? "Zapisano" : isSaving ? "Zapisywanie..." : "Zapisz"}
       </Button>
     </div>
   );
