@@ -20,19 +20,19 @@ const user = Astro.locals.user;
     <title>{title}</title>
   </head>
   <body>
-    <header class="border-b border-border/40 bg-background/80">
+    <header class="border-b border-border/30 bg-[oklch(0.99_0.004_30)]/70 backdrop-blur-sm">
       <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
-        <a class="text-lg font-semibold text-foreground" href="/"> Wakaru </a>
+        <a class="logo-link font-logo text-[1.4rem] tracking-[2px] text-logo no-underline hover:opacity-90" href="/">Wakaru</a>
         <nav class="flex items-center gap-3 text-sm">
           {
             user ? (
               <>
-                <a class="text-foreground hover:text-primary" href="/saved" data-testid="nav-saved-link">
+                <a class="font-semibold text-foreground hover:text-primary" href="/saved" data-testid="nav-saved-link">
                   Moje Zdania
                 </a>
                 <form method="post" action="/logout">
                   <button
-                    class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
+                    class="rounded-md border bg-background px-3 py-1.5 text-sm font-semibold text-foreground shadow-xs hover:bg-accent hover:text-accent-foreground"
                     type="submit"
                     data-testid="nav-logout-button"
                   >
@@ -42,11 +42,11 @@ const user = Astro.locals.user;
               </>
             ) : (
               <>
-                <a class="text-foreground hover:text-primary" href="/login" data-testid="nav-login-link">
+                <a class="font-semibold text-foreground hover:text-primary" href="/login" data-testid="nav-login-link">
                   Zaloguj
                 </a>
                 <a
-                  class="rounded-md border border-border px-3 py-1.5 text-foreground hover:border-primary hover:text-primary"
+                  class="rounded-md border bg-background px-3 py-1.5 text-sm font-semibold text-foreground shadow-xs hover:bg-accent hover:text-accent-foreground"
                   href="/register"
                   data-testid="nav-register-link"
                 >
