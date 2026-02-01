@@ -2,6 +2,8 @@
 
 Wakaru is an AI-powered web application designed to help beginner and intermediate Japanese learners read and understand authentic content like manga and social media. Wakaru breaks down Japanese sentences into interactive tiles, providing morphological analysis, grammar explanations, and contextual translations, effectively bridging the gap between textbook theory and real-world reading fluency.
 
+![Main Page Screenshot](./public/screenshots/main-page.png)
+
 ## Tech Stack
 
 **Frontend:**
@@ -19,7 +21,6 @@ Wakaru is an AI-powered web application designed to help beginner and intermedia
 - [Vitest](https://vitest.dev/) - Unit and integration testing framework.
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - React component testing.
 - [Playwright](https://playwright.dev/) - End-to-End (E2E) testing.
-- [MSW](https://mswjs.io/) - API mocking.
 
 ## Getting Started Locally
 

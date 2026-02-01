@@ -262,7 +262,6 @@ function AnalysisFeature({ isLoggedIn }: AnalysisFeatureProps) {
             isLoading={isLoading}
             error={validationError}
             helperText={!isLoggedIn ? "Zaloguj się, aby korzystać z analizy." : null}
-            noticeText={!isLoggedIn ? "Tryb demonstracyjny: analiza jest dostępna po zalogowaniu." : null}
           />
         </CardContent>
       </Card>

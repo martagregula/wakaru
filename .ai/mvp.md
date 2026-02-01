@@ -5,8 +5,8 @@ Uczniowie języka japońskiego na poziomie początkującym i średniozaawansowan
 ### Najmniejszy zestaw funkcjonalności
 - Analiza Morfologiczna (NLP): Rozbijanie zdania na tokeny (wykrywanie granic słów).
 - Dekoder Gramatyki: Rozpoznawanie i nazywanie form gramatycznych (np. czasownik w formie `te`, przymiotnik w formie przeczącej)
-- Contextual Translation: Tłumaczenie całego zdania na język polski
-- Integracja ze Słownikiem: Tooltipy z definicjami po kliknięciu w konkretne słowo.
+- Contextual Translation: Tłumaczenie całego zdania na język angielski.
+- Integracja ze Słownikiem: Panel z definicjami po kliknięciu w konkretne słowo.
 - System Kont Użytkownika: Rejestracja/Logowanie umożliwiające personalizację.
 - Notatnik "Moje Zdania": Możliwość zapisania przeanalizowanego zdania w profilu użytkownika do późniejszego powtórzenia.
 - Walidacja Języka: System wykrywający, czy wklejony tekst zawiera znaki japońskie (Hiragana/Katakana/Kanji).
@@ -18,7 +18,7 @@ Uczniowie języka japońskiego na poziomie początkującym i średniozaawansowan
 - Obsługa audio: Generowanie wymowy zdania.
 
 ### Ścieżki użytkownika (User Paths)
-- Ścieżka Analizy: Zalogowany użytkownik wkleja zdanie -> System sprawdza, czy to japoński -> Generuje wizualne "kafelki" ze słowami -> Użytkownik najeżdża na kafelki, widząc formę gramatyczną i definicję.
+- Ścieżka Analizy: Zalogowany użytkownik wkleja zdanie -> System sprawdza, czy to japoński -> Generuje wizualne "kafelki" ze słowami -> Użytkownik klika kafelek, by zobaczyć formę gramatyczną i definicję.
 - Ścieżka Archiwizacji: Użytkownik klika ikonę zapisu przy zdaniu -> Zdanie trafia do sekcji "Zapisane" w jego profilu.
 - Ścieżka Edukacyjna: Użytkownik wraca do profilu, by przejrzeć historię swoich trudnych zdań.
 

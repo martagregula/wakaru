@@ -14,7 +14,6 @@ interface AnalysisInputProps {
   error: string | null;
   disabled?: boolean;
   helperText?: string | null;
-  noticeText?: string | null;
 }
 
 function AnalysisInput({
@@ -25,7 +24,6 @@ function AnalysisInput({
   error,
   disabled = false,
   helperText = null,
-  noticeText = null,
 }: AnalysisInputProps) {
   const length = value.length;
   const isOverLimit = length > MAX_LENGTH;
@@ -76,14 +74,6 @@ function AnalysisInput({
         <p id={helperId} className="text-muted-foreground text-xs" data-testid="analysis-input-helper">
           {helperText}
         </p>
-      ) : null}
-      {noticeText ? (
-        <div
-          className="rounded-lg border border-dashed bg-muted/30 px-3 py-2 text-xs text-muted-foreground"
-          data-testid="analysis-input-notice"
-        >
-          {noticeText}
-        </div>
       ) : null}
     </div>
   );

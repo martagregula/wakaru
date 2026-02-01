@@ -50,7 +50,7 @@ Typy są już zdefiniowane w `src/types.ts`.
 
 ## 4. Przepływ danych
 1.  **Klient**: Wysyła żądanie `GET /api/saved-items` z parametrami.
-2.  **API Route (`src/pages/api/saved-items/index.ts`)**:
+2.  **API Route (`src/pages/api/saved-items.ts`)**:
     *   Sprawdza sesję użytkownika (`context.locals.user`). Jeśli brak -> 401.
     *   Waliduje i parsuje parametry query string za pomocą `zod`. Jeśli błąd -> 400.
     *   Wywołuje `SavedItemService.findAll()`.
@@ -89,7 +89,7 @@ W pliku `src/lib/services/saved-item.service.ts`:
   - Mapowanie wyników (surowy wynik z Supabase -> `SavedItemWithAnalysisDTO`).
 
 ### Krok 2: Utworzenie API Endpoint
-Utworzyć plik `src/pages/api/saved-items/index.ts`:
+Utworzyć plik `src/pages/api/saved-items.ts`:
 - Ustawić `prerender = false`.
 - Zdefiniować schemat walidacji parametrów query za pomocą `zod` (`z.coerce.number()`, `z.enum()`).
 - Zaimplementować handler `GET`:
